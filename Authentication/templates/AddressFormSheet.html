@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+ <form method="POST" action="/accounts/address/">
+  {% csrf_token %}
+     <h2>Current Address:</h2>
+     {{ cur_form.as_p }}
+     <h2>Permanent Address:</h2>
+     {{ per_form.as_p }}
+     <p><button type="submit">Save Address</button></p>
+ </form>
+{% endblock %}
