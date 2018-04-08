@@ -10,6 +10,7 @@ class Address(models.Model):
     sub_district = models.CharField(max_length=200, default="Dhaka")
     city = models.CharField(max_length=200, default="Dhaka")
     zip = models.IntegerField(default=1000)
+    phone_number = models.CharField(max_length=100, null=True)
 
 
 # class CurrentAddress(models.Model):

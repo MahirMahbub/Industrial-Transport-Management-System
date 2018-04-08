@@ -56,7 +56,8 @@ from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 
 def dummy(request):
-    user = User.objects.get(username='user1')
+    #user = User.objects.get(username='user1')
+    user = request.user
     txt = "<h2>"
     txt += "username: " + user.username
     txt += "present address City: " + user.profile.current_address.city

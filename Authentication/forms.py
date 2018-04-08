@@ -6,7 +6,7 @@ from Authentication.models import Address
 
 class CurrentAddressForm(forms.ModelForm):
     #email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-    phone_number = PhoneNumberField()
+    phone_number = forms.CharField(max_length=100)
     district = forms.CharField(max_length=200)
     sub_district = forms.CharField(max_length=200)
     city = forms.CharField(max_length=200)
@@ -19,7 +19,7 @@ class CurrentAddressForm(forms.ModelForm):
 
 class PermanentAddressForm(forms.ModelForm):
     # email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-    phone_number = PhoneNumberField()
+    phone_number = forms.CharField(max_length=100)
     district = forms.CharField( max_length=200 )
     sub_district = forms.CharField( max_length=200 )
     city = forms.CharField( max_length=200 )
