@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+#ACCOUNT_ADAPTER = 'Authentication.adapter.AccountAdapter'
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -135,15 +135,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+#ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 #ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = LOGIN_URL
-
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL ='/accounts/address/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/address/'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Site]'
 ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT =5
@@ -154,12 +155,18 @@ ACCOUNT_UNIQUE_EMAIL =True
 ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_USERNAME_REQUIRED =True
-LOGIN_REDIRECT_URL = "/accounts/address/"
+#LOGIN_REDIRECT_URL = "/accounts/address/"
+LOGIN_REDIRECT_URL = "/"
 
-
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mahirmahbub7@gmail.com'
+EMAIL_HOST_PASSWORD = 'mahirmahbubiit'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

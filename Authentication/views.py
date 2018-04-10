@@ -17,15 +17,18 @@ def address_view(request):
         if cur_form.is_valid() and per_form.is_valid():
             #current address form reading
             profile = UserProfile(user = request.user)
+            #profile = request.user
+            print(profile)
             phone_number = cur_form.cleaned_data['phone_number']
             district = cur_form.cleaned_data['district']
             sub_district = cur_form.cleaned_data['sub_district']
             city = cur_form.cleaned_data['city']
             zip = cur_form.cleaned_data['zip']
-            print("Working")
-
+            print("Working it")
+            print(district)
             current_address = Address.objects.create(district=district, sub_district=sub_district, city=city, zip=zip,phone_number =  phone_number)
             profile.current_address = current_address
+
 
             phone_number = per_form.cleaned_data['phone_number']
             district = per_form.cleaned_data['district']
@@ -33,7 +36,7 @@ def address_view(request):
             city = per_form.cleaned_data['city']
             zip = per_form.cleaned_data['zip']
             permanent_address = Address.objects.create( district=district, sub_district=sub_district, city=city, zip=zip,phone_number = phone_number )
-
+            print(district)
             profile.permanent_address = permanent_address
             profile.save()
 
@@ -56,10 +59,10 @@ from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 
 def dummy(request):
-    #user = User.objects.get(username='user1')
-    user = request.user
-    txt = "<h2>"
-    txt += "username: " + user.username
-    txt += "present address City: " + user.profile.current_address.city
-    txt += "permnent district: "  + user.profile.permanent_address.district + "</h2>"
-    return HttpResponse(txt)
+    # user = User.objects.get(username='user1')
+    # #user = request.user
+    # txt = "<h2>"
+    # txt += "username: " + user.username
+    # txt += "present address City: " + user.profile.current_address.city
+    # txt += "permnent district: "  + user.profile.permanent_address.district + "</h2>"
+    return HttpResponse("Welcoome")
