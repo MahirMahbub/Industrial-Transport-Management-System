@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from Authentication import views
 from Authentication.views import address_view, dummy
 
 urlpatterns = [
-
+   # path('', views.index, name='index'),
     path('admin/', admin.site.urls),
+    #path('accounts/logout/', 'django.contrib.auth.views.logout',{'next_page': '/'}),
     path('accounts/', include('allauth.urls')),
     path('accounts/address/',address_view, name = "address_view"),
     path( '', dummy ),

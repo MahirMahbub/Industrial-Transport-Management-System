@@ -1,8 +1,14 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
+
 from Authentication.forms import CurrentAddressForm,PermanentAddressForm
 from Authentication.models import Address, UserProfile
 from django.contrib.auth.decorators import login_required
+
+def index(request):
+    return render_to_response("index.html",
+                              RequestContext(request))
 
 # Create your views here.
 @login_required
