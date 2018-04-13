@@ -32,7 +32,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     'Authentication.apps.AuthenticationConfig',
+    # General use templates & template tags (should appear first)
+    'django_adminlte',
+
+    # Optional: Django admin theme (must be before django.contrib.admin)
+    'django_adminlte_theme',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,9 +50,15 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'phonenumber_field',
+    'bootstrapform',
+    'bootstrap3',
 ]
 
 SITE_ID = 1
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,7 +75,7 @@ ROOT_URLCONF = 'ITMS_Project_Final.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join( BASE_DIR, 'templates' ),  os.path.join(BASE_DIR, 'templates', 'allauth')]
+        'DIRS': [os.path.join( BASE_DIR, 'templates' ),  os.path.join(BASE_DIR, 'templates', 'allauth'), os.path.join(BASE_DIR, 'Authentication', 'templates'),]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -162,7 +174,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mahirmahbub7@gmail.com'
-EMAIL_HOST_PASSWORD = 'mahirmahbubiit'
+EMAIL_HOST_PASSWORD = '18918mahbub'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 

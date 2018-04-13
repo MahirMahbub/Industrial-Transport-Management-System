@@ -1,21 +1,93 @@
-{% extends "account/base.html" %}
+{#{% extends "account/base.html" %}#}
+{#{% extends "adminlte/register.html" %}#}
+{##}
+{#{% load i18n %}#}
+{##}
+{#{% block head_title %}{% trans "Signup" %}{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#<h4>{% trans "Sign Up" %}</h4>#}
+{##}
+{#<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>#}
+{##}
+{#<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">#}
+{#  {% csrf_token %}#}
+{#  {{ form.as_p }}#}
+{#  {% if redirect_field_value %}#}
+{#  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
+{#  {% endif %}#}
+{#  <button type="submit">{% trans "Sign Up" %} &raquo;</button>#}
+{#</form>#}
+{##}
+{#{% endblock %}#}
 
-{% load i18n %}
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block body_class %}login-page{% endblock %}
 
-{% block content %}
-<h4>{% trans "Sign Up" %}</h4>
+{% block body %}
+    <div class="login-box">
+        {% block logo %}
+        <div class="login-logo">
+            {# Mirrors block names used in _main_header.html #}
+            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock %}</a>
+        </div>
+        {% endblock %}
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            {% block login_errors %}
+                {% if form.errors and not form.non_field_errors %}
+                    <p class="alert alert-danger">
+                        {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
+                            {% trans "Please correct the errors below." %}{% endif %}
+                    </p>
+                {% endif %}
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            {% endblock login_errors %}
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% block login_form %}
+
+
+<form class="login" method="POST" action="{% url 'account_signup' %}">
+{#{% load bootstrap3 %}#}
   {% csrf_token %}
-  {{ form.as_p }}
+{% load bootstrap %}
+
+{{ form|bootstrap }}
+{#{% for field in form %}#}
+{#    <div class="row">#}
+{#       <div class="col-md-2">#}
+{#        {{ field.label_tag }}#}
+{#        {% if field.help_text %}#}
+{#          <sup>{{ field.help_text }}</sup>#}
+{#        {% endif %}#}
+{#        {{ field.errors }}#}
+{#         {{ field }}#}
+{#       </div><div class="col-md-10 pull-left">#}
+{##}
+{#       </div>#}
+{#    </div>#}
+{# {% endfor %}#}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+{#  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
+{#  <br/>#}
+    <button class="primaryAction" type="submit" >{% trans "Sign Up" %}</button>
 </form>
 
+
+
+            {% endblock login_form %}
+
+        </div>
+    </div>
 {% endblock %}
