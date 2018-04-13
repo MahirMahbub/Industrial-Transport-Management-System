@@ -1,10 +1,12 @@
 {% extends "adminlte/base.html" %}
-
+{% load staticfiles %}
 {% load static %}<!DOCTYPE html>
+
 <html>
 <head>
     {% block title_outer %}
         <title>{% block title %}{{ site.name }}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static '/Home/home_style.css' %}" />
     {% endblock %}
 
     {% block meta %}
@@ -129,8 +131,8 @@
                 {% block content_block_wrap %}
                     <h2 align="center"> Industrial Transport Management System</h2>
                     <div class="sidebar-box">
-                    <p></p>
-                    <p class="read-more"><a href="#" class="button">Read More</a></p>
+                    <p>A Transportation Management System is a software that is aimed at helping business and organizations to effectively manage its logistics supply chain, it helps organizing and tracking the movements of the vehicles, products and materials. A Transportation Management System also helps in managing transport scheduling, shipping and transporting units, transportation mode selection, payment and processing of loss and damage claims etc. </p>
+{#                    <p class="read-more"><a href="#" class="button">Read More</a></p>#}
 </div>
 {#                    {% block content %}{% endblock %}#}
                 {% endblock %}

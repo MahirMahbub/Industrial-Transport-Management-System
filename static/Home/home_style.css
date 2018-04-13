@@ -1,0 +1,14 @@
+.sidebar-box {
+  max-height: 50px;
+  position: relative;
+  font-size: 1.3em;
+}
+.sidebar-box .read-more {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0; padding: 30px 0;
+
+}
