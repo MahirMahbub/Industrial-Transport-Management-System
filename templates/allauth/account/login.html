@@ -77,7 +77,7 @@
         {% block logo %}
         <div class="login-logo">
             {# Mirrors block names used in _main_header.html #}
-            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock %}</a>
+            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
         </div>
         {% endblock %}
         <!-- /.login-logo -->
@@ -90,13 +90,13 @@
                     </p>
                 {% endif %}
 
-                {% if form.non_field_errors %}
-                    {% for error in form.non_field_errors %}
-                        <p class="alert alert-danger">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                {% endif %}
+{#                {% if form.non_field_errors %}#}
+{#                    {% for error in form.non_field_errors %}#}
+{#                        <p class="alert alert-danger">#}
+{#                            {{ error }}#}
+{#                        </p>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
             {% endblock login_errors %}
 
             {% block login_form %}
@@ -127,7 +127,7 @@
   {% endif %}
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
   <br/>
-    <button class="primaryAction" type="submit" >{% trans "Sign In" %}</button>
+    <button class="btn btn-primary" type="submit" >{% trans "Sign In" %}</button>
 </form>
 
 

@@ -8,7 +8,7 @@
 {# </form>#}
 {#{% endblock %}#}
 
-{% extends "allauth/account/base.html" %}
+{% extends "adminlte/base.html" %}
 {% load i18n static %}
 
 {% block body_class %}login-page{% endblock %}
@@ -49,7 +49,7 @@
      <h2>Current Address:</h2>
 
      {{ cur_form| bootstrap}}
-     <p><button type="submit">Save Address</button></p>
+     <p><button class = "btn btn-primary" type="submit">Save Address</button></p>
  </form>
 
 

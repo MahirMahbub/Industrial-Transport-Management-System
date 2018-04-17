@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from Authentication import views
-from Authentication.views import address_view, dummy
+from Authentication.views import address_view, dummy, add_vehicle_view
 
 urlpatterns = [
    # path('', views.index, name='index'),
@@ -26,5 +26,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/address/',address_view, name = "address_view"),
     path( '', dummy ),
+    path('accounts/add_vehicle/', add_vehicle_view, name = "add_vehicle_view")
 
 ]

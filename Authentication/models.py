@@ -6,6 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 class Address(models.Model):
+
     district = models.CharField(max_length=200, default="Dhaka")
     sub_district = models.CharField(max_length=200, default="Dhaka")
     city = models.CharField(max_length=200, default="Dhaka")
@@ -47,11 +48,10 @@ class Vehicle(models.Model):
     #vehicle_id = models.BigAutoField(primary_key=True)
     license_no = models.CharField(max_length=200)
     chassis_no = models.CharField(max_length=200)
-    start_date = models.DateTimeField('Vehicle Add Date')
-    journey_date = models.DateTimeField('Journey Date')
+    journey_date = models.DateField()
     capacity = models.FloatField(default=0.0)
     model = models.CharField(max_length=200)
-    start_price = models.IntegerField(default=0.0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class UserProfile(models.Model):

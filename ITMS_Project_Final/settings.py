@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'bootstrap3',
 ]
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 SITE_ID = 1
 
 STATICFILES_DIRS = [
