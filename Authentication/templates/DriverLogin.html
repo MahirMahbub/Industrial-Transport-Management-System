@@ -1,25 +1,3 @@
-{#{% extends "account/base.html" %}#}
-{#{% extends "adminlte/register.html" %}#}
-{##}
-{#{% load i18n %}#}
-{##}
-{#{% block head_title %}{% trans "Signup" %}{% endblock %}#}
-{##}
-{#{% block content %}#}
-{#<h4>{% trans "Sign Up" %}</h4>#}
-{##}
-{#<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>#}
-{##}
-{#<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">#}
-{#  {% csrf_token %}#}
-{#  {{ form.as_p }}#}
-{#  {% if redirect_field_value %}#}
-{#  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
-{#  {% endif %}#}
-{#  <button type="submit">{% trans "Sign Up" %} &raquo;</button>#}
-{#</form>#}
-{##}
-{#{% endblock %}#}
 
 {% extends "adminlte/base.html" %}
 {% load i18n static %}
@@ -31,7 +9,7 @@
         {% block logo %}
         <div class="login-logo">
             {# Mirrors block names used in _main_header.html #}
-            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock %}</a>
+            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
         </div>
         {% endblock %}
         <!-- /.login-logo -->
@@ -44,19 +22,19 @@
                     </p>
                 {% endif %}
 
-                {% if form.non_field_errors %}
-                    {% for error in form.non_field_errors %}
-                        <p class="alert alert-danger">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                {% endif %}
+{#                {% if form.non_field_errors %}#}
+{#                    {% for error in form.non_field_errors %}#}
+{#                        <p class="alert alert-danger">#}
+{#                            {{ error }}#}
+{#                        </p>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
             {% endblock login_errors %}
 
             {% block login_form %}
 
 
-<form class="login" method="POST" action="{% url 'account_signup' %}">
+<form class="login" method="POST" action="/accunts/driver_login/">
 {#{% load bootstrap3 %}#}
   {% csrf_token %}
 {% load bootstrap %}
@@ -79,10 +57,9 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-<a class="button secondaryAction" href="{% url 'account_login' %}">{% trans "Already have an account?" %}</a>
-<br/>
-<br/>
-    <button class="btn btn-primary" type="submit" >{% trans "Sign Up" %}</button>
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <br/>
+    <button class="btn btn-primary" type="submit" >{% trans "Sign In" %}</button>
 </form>
 
 

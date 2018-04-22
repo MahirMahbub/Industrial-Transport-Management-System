@@ -52,11 +52,12 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'bootstrapform',
     'bootstrap3',
+
 ]
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 SITE_ID = 1
-
+#AUTH_USER_MODEL = 'user.User'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]

@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from Authentication import views
-from Authentication.views import address_view, dummy, add_vehicle_view
+from Authentication.views import address_view, dummy, add_vehicle_view, driver_login, borrow_vehicle_view, \
+    borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view
+
+#borrow_vehicle_view,borrow_vehicle_list_view
 
 urlpatterns = [
    # path('', views.index, name='index'),
@@ -26,6 +29,12 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/address/',address_view, name = "address_view"),
     path( '', dummy ),
-    path('accounts/add_vehicle/', add_vehicle_view, name = "add_vehicle_view")
+    path('accunts/driver_login/',driver_login, name = "driver_login"),
+    path('accounts/add_vehicle/', add_vehicle_view, name = "add_vehicle_view"),
+    path('accounts/borrow_vehicle/', borrow_vehicle_view, name = "borrow_vehicle_view"),
+    path('accounts/borrow_vehicle_list/', borrow_vehicle_list_view, name = "borrow_vehicle_list_view"),
+    path('accounts/borrow_vehicle_details/<int:pk>', borrow_vehicle_details_view, name='borrow_vehicle_details_view'),
+    path('accounts/added_vehicle_list/', added_vehicle_list_view, name = "added_vehicle_list_view"),
+    path('accounts/added_vehicle_details/<int:pk>', added_vehicle_details_view, name='added_vehicle_detail_view'),
 
 ]

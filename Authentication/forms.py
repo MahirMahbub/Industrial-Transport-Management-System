@@ -47,14 +47,36 @@ class PermanentAddressForm(forms.ModelForm):
 
 
 class AddVehicleForm(forms.ModelForm):
+    driver_code = forms.CharField(max_length=200)
     license_no = forms.CharField(max_length=200)
     chassis_no = forms.CharField(max_length=200)
+    capacity = forms.FloatField()
+    model = forms.CharField(max_length=200)
+    place = forms.CharField(max_length=200)
+    vehicle_password = forms.CharField(widget=forms.PasswordInput)
+    # journey_date = forms.DateField(widget=forms.SelectDateWidget())
+    #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
+    # p_address = forms.ModelMultipleChoiceField(queryset=None)
+    class Meta:
+        model = Vehicle
+        fields = ('driver_code','license_no', 'chassis_no', 'capacity', 'model', 'place','vehicle_password',)
+        # widgets = {
+        #     'journey_date': forms.DateTimeInput( attrs={'class': 'datetime-input'} )
+        # }
+class BorrowVehicleForm(forms.ModelForm):
+    capacity = forms.FloatField()
     journey_date = forms.DateField(widget=forms.SelectDateWidget())
     #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
     # p_address = forms.ModelMultipleChoiceField(queryset=None)
     class Meta:
         model = Vehicle
-        fields = ('license_no', 'chassis_no', 'journey_date', 'capacity', 'model',)
+        fields = ('capacity', 'journey_date',)
         # widgets = {
         #     'journey_date': forms.DateTimeInput( attrs={'class': 'datetime-input'} )
         # }
+class DriverLogin(forms.ModelForm):
+    driver_code = forms.CharField( max_length=200 )
+    vehicle_password = forms.CharField( widget=forms.PasswordInput )
+    class Meta:
+        model = Vehicle
+        fields = ('driver_code', 'vehicle_password',)

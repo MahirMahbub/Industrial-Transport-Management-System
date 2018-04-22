@@ -1,7 +1,10 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
@@ -12,6 +15,7 @@ class Address(models.Model):
     city = models.CharField(max_length=200, default="Dhaka")
     zip = models.IntegerField(default=1000)
     phone_number = models.CharField(max_length=100, null=True)
+    user = models.OneToOneField( User, on_delete=models.CASCADE, null = True)
 
 
 # class CurrentAddress(models.Model):
@@ -48,12 +52,24 @@ class Vehicle(models.Model):
     #vehicle_id = models.BigAutoField(primary_key=True)
     license_no = models.CharField(max_length=200)
     chassis_no = models.CharField(max_length=200)
-    journey_date = models.DateField()
+    journey_date = models.DateField(default=datetime.date.today, null=True)
     capacity = models.FloatField(default=0.0)
     model = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    driver_code_name = models.OneToOneField( User, on_delete=models.CASCADE,related_name="driver_code", null = True)
+    client = models.ForeignKey(User, on_delete=models.CASCADE,related_name="client", null=True)
+    place = models.CharField(max_length=200, null=True)
 
+    def get_absolute_url(self):
+        """
+        Returns the url to access a particular instance of MyModelName.
+        """
+        print(reverse( 'borrow_vehicle_details_view', args=[str( self.id )] ))
+        return reverse( 'borrow_vehicle_details_view', args=[str( self.id )] )
 
+# class BookVehicle(models.Model):
+#     client = models.OneToOneField( User, on_delete=models.CASCADE,related_name="driver_code", null = True)
+#     ve
 class UserProfile(models.Model):
     user =  models.OneToOneField(User, related_name="profile", on_delete = models.CASCADE)
     permanent_address =  models.OneToOneField(Address, related_name="permanent", on_delete = models.CASCADE)

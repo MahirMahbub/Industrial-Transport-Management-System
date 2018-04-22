@@ -1,0 +1,57 @@
+{% extends "adminlte/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Add Vehicle" %}{% endblock %}
+{% block extra_head %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h1>{% trans "Added Vehicle List" %}</h1>
+    <div class="list-group">
+    {% for vehicle in added_vehicle %}
+        <a class="list-group-item" href="{{ vehicle.get_absolute_url }}"  >
+        <div data-toggle="popover" data-trigger="hover" data-content="Click to see details" >
+{#        <p> <strong>License No: </strong>vehicle.license_no</p>#}
+{#        <p> <strong>Chasis No: </strong>vehicle.chassis_no</p>#}
+{#        <p> <strong>Owner: </strong>vehicle.user.username</p>#}
+            <h4 class="list-group-item-heading"> <strong>Model: </strong>{{ vehicle.model }}</h4>
+            <p> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+    </script>
+
+{% if added_vehicle.has_other_pages %}
+  <ul class="pagination">
+    {% if added_vehicle.has_previous %}
+      <li><a href="?page={{ added_vehicle.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in added_vehicle.paginator.page_range %}
+      {% if added_vehicle.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ added_vehicle.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+    <div style="margin-left:20px;margin-top:20px">
+
+    </div>
+
+{% endblock %}
