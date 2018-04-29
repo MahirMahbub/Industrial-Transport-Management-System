@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Google Maps Example</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>PubNub Google Maps Tutorial - Live Device Location</h1>
+      <div id="map-canvas" style="width:600px;height:400px"></div>
+    </div>
+
+    <script>
+    window.lat = 23.8103;
+    window.lng = 90.4125;
+
+    function getLocation() {
+            navigator.geolocation.getCurrentPosition(updatePosition);
+        {#    var pos = {#}
+        {#      lat: position.coords.latitude,#}
+        {#      lng: position.coords.longitude#}
+        {#    };#}
+        {##}
+        {#    infoWindow.setPosition(pos);#}
+        {#    infoWindow.setContent('Location found.');#}
+        {#    infoWindow.open(map);#}
+        {#    map.setCenter(pos);#}
+        return null;};
+
+    function updatePosition(position) {
+      if (position) {
+        {#window.lat = position.coords.latitude;#}
+        {#window.lng = position.coords.longitude;#}
+        {#  console.log("{{ request.path }}");#}
+
+              $.get("{% url 'get_data' %}", function(data, status){
+            {#alert("Data: " + data.lng + "\nStatus: " + status);#}
+                  //console.log(data.lan)
+                  window.lat = data.lan;
+                  window.lng = data.lng;
+        });
+        console.log(window.lat);
+        map.setCenter({lat:window.lat, lng:window.lng, alt:0});
+        mark.setPosition({lat:window.lat, lng:window.lng, alt:0});
+      }
+    }
+
+    setInterval(function(){updatePosition(getLocation());}, 1000);
+
+    function currentLocation() {
+      return {lat:window.lat, lng:window.lng};
+    };
+
+    var map;
+    var mark;
+
+    var initialize = function() {
+      map  = new google.maps.Map(document.getElementById('map-canvas'), {center:{lat:lat,lng:lng},zoom:18.5});
+      mark = new google.maps.Marker({position:{lat:lat, lng:lng}, map:map});
+    };
+
+    window.initialize = initialize;
+
+    var redraw = function(payload) {
+        {#console.log(window.lat);#}
+      lat = payload.message.lat;
+      lng = payload.message.lng;
+      {#console.log(lat);#}
+
+      map.setCenter({lat:lat, lng:lng, alt:0});
+      mark.setPosition({lat:lat, lng:lng, alt:0});
+    };
+
+    var pnChannel = "map2-channel";
+
+    var pubnub = new PubNub({
+      publishKey:   'pub-c-a1836383-010f-45d5-81ad-26dbaf1dc6f8',
+      subscribeKey: 'sub-c-59a83a14-4873-11e8-8901-ea8768bf0ed8'});
+
+    pubnub.subscribe({channels: [pnChannel]});
+    pubnub.addListener({message:redraw});
+
+    setInterval(function() {
+      pubnub.publish({channel:pnChannel, message:currentLocation()});}, 5000);
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD7ucF9SNLs-2XkWdaCAE6zZTGFEInrpNY&callback=initialize"></script>
+  </body>
+</html>

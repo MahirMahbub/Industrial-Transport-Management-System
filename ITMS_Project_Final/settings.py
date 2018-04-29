@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#APPEND_SLASH=False
 INSTALLED_APPS = [
 
     'Authentication.apps.AuthenticationConfig',
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'bootstrapform',
     'bootstrap3',
+    # 'django_private_chat',
 
 ]
 
@@ -184,3 +185,7 @@ STATIC_URL = '/static/'
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#
+# CHAT_WS_SERVER_HOST = 'localhost'
+# CHAT_WS_SERVER_PORT = 5002
+# CHAT_WS_SERVER_PROTOCOL = 'ws'

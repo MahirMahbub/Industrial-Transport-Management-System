@@ -60,12 +60,26 @@ class Vehicle(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE,related_name="client", null=True)
     place = models.CharField(max_length=200, null=True)
 
-    def get_absolute_url(self):
+    def get_absolute_url_borrow(self):
         """
         Returns the url to access a particular instance of MyModelName.
         """
         print(reverse( 'borrow_vehicle_details_view', args=[str( self.id )] ))
         return reverse( 'borrow_vehicle_details_view', args=[str( self.id )] )
+
+    def get_absolute_url_added(self):
+        """
+        Returns the url to access a particular instance of MyModelName.
+        """
+        print(reverse( 'added_vehicle_detail_view', args=[str( self.id )] ))
+        return reverse( 'added_vehicle_detail_view', args=[str( self.id )] )
+
+    def get_absolute_url_show(self):
+        """
+        Returns the url to access a particular instance of MyModelName.
+        """
+        print(reverse( 'get_loc_data', args=[str( self.id )] ))
+        return reverse( 'get_loc_data', args=[str( self.id )] )
 
 # class BookVehicle(models.Model):
 #     client = models.OneToOneField( User, on_delete=models.CASCADE,related_name="driver_code", null = True)
@@ -74,3 +88,15 @@ class UserProfile(models.Model):
     user =  models.OneToOneField(User, related_name="profile", on_delete = models.CASCADE)
     permanent_address =  models.OneToOneField(Address, related_name="permanent", on_delete = models.CASCADE)
     current_address = models.OneToOneField(Address, related_name="current", on_delete = models.CASCADE)
+
+class TrackVehicle(models.Model):
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null= True)
+    this_vehicle = models.OneToOneField(Vehicle, related_name="this_vehicle", on_delete = models.CASCADE, null=True)
+
+    def get_absolute_url_show(self):
+        """
+        Returns the url to access a particular instance of MyModelName.
+        """
+        print( reverse( 'get_loc_data', args=[str( self.id )] ) )
+        return reverse( 'get_loc_data', args=[str( self.id )] )

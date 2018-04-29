@@ -18,7 +18,8 @@ from django.urls import path, include
 
 from Authentication import views
 from Authentication.views import address_view, dummy, add_vehicle_view, driver_login, borrow_vehicle_view, \
-    borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view
+    borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view, \
+    own_location_view, get_loc_data, get_data
 
 #borrow_vehicle_view,borrow_vehicle_list_view
 
@@ -36,5 +37,8 @@ urlpatterns = [
     path('accounts/borrow_vehicle_details/<int:pk>', borrow_vehicle_details_view, name='borrow_vehicle_details_view'),
     path('accounts/added_vehicle_list/', added_vehicle_list_view, name = "added_vehicle_list_view"),
     path('accounts/added_vehicle_details/<int:pk>', added_vehicle_details_view, name='added_vehicle_detail_view'),
-
+    # path( 'chat/', include( 'django_private_chat.urls' ) ),
+    path("accounts/vehicle_login/", own_location_view, name = "own_location_view"),
+    path("accounts/get_loc_data/<int:pk>",get_loc_data, name = "get_loc_data"),
+    path("accounts/get_data/",get_data, name = "get_data"),
 ]

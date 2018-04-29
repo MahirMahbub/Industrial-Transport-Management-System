@@ -12,7 +12,7 @@
     <h1>{% trans "Availabble Vehicle" %}</h1>
     <div class="list-group">
     {% for vehicle in borrow_vehicle %}
-        <a class="list-group-item" href="{{ vehicle.get_absolute_url }}"  >
+        <a class="list-group-item" href="{{ vehicle.get_absolute_url_borrow }}"  >
         <div data-toggle="popover" data-trigger="hover" data-content="Click to see details" >
 {#        <p> <strong>License No: </strong>vehicle.license_no</p>#}
 {#        <p> <strong>Chasis No: </strong>vehicle.chassis_no</p>#}

@@ -1,16 +1,22 @@
 import datetime
+import json
+
+from MySQLdb.constants.FLAG import UNIQUE
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.shortcuts import render
+from django.db import IntegrityError
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext, context
 from django.urls import reverse_lazy
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import DeleteView
 
 from Authentication.forms import CurrentAddressForm, PermanentAddressForm, AddVehicleForm,DriverLogin, BorrowVehicleForm
-from Authentication.models import Address, UserProfile, Vehicle
+from Authentication.models import Address, UserProfile, Vehicle, TrackVehicle
 from django.contrib.auth import logout, authenticate, login
 
 
@@ -91,33 +97,39 @@ def add_vehicle_view(request):
     if request.method == 'POST':
         add_veh = AddVehicleForm(request.POST)
         if add_veh.is_valid():
-            license_no = add_veh.cleaned_data['license_no']
-            chassis_no = add_veh.cleaned_data['chassis_no']
-            driver_code = add_veh.cleaned_data['driver_code']
-            #journey_date = add_veh.cleaned_data['journey_date']
-            capacity = add_veh.cleaned_data['capacity']
-            model = add_veh.cleaned_data['model']
-            passwd_veh = add_veh.cleaned_data['vehicle_password']
-            passwd_hashed = make_password(str(passwd_veh))
-            print("Time")
-            user_profile = None
-            # if request.user.is_authenticated():
-            # user_profile = request.userauth_group_permissions
-            user_profile = request.user
-            #print(journey_date)
-            vehicle = Vehicle.objects.create( license_no = license_no, chassis_no = chassis_no,
-                                              journey_date=datetime.date.today(),capacity=capacity, model=model)
-            vehicle.user = user_profile
-            group = Group.objects.get( name='Driver' )
+            try:
+                license_no = add_veh.cleaned_data['license_no']
+                chassis_no = add_veh.cleaned_data['chassis_no']
+                driver_code = add_veh.cleaned_data['driver_code']
+                #journey_date = add_veh.cleaned_data['journey_date']
+                capacity = add_veh.cleaned_data['capacity']
+                model = add_veh.cleaned_data['model']
+                passwd_veh = add_veh.cleaned_data['vehicle_password']
+                passwd_hashed = make_password(str(passwd_veh))
+                print("Time")
+                user_profile = None
+                # if request.user.is_authenticated():
+                # user_profile = request.userauth_group_permissions
+                user_profile = request.user
+                #print(journey_date)
+                vehicle = Vehicle.objects.create( license_no = license_no, chassis_no = chassis_no,
+                                                  journey_date=datetime.date.today(),capacity=capacity, model=model)
+                vehicle.user = user_profile
+                group = Group.objects.get( name='Driver' )
 
-            driver_user = User.objects.create( username= driver_code, password=passwd_hashed,is_active= True)
-            # vehicle.driver_code_name.username = driver_code
-            # vehicle.driver_code_name.password = passwd_veh
-            # vehicle.driver_code_name.is_active = True
-            vehicle.driver_code_name = driver_user
-            driver_user.groups.add( group )
-            driver_user.save()
-            vehicle.save()
+                driver_user = User.objects.create( username= driver_code, password=passwd_hashed,is_active= True)
+                # vehicle.driver_code_name.username = driver_code
+                # vehicle.driver_code_name.password = passwd_veh
+                # vehicle.driver_code_name.is_active = True
+                vehicle.driver_code_name = driver_user
+                driver_user.groups.add( group )
+                driver_user.save()
+                vehicle.save()
+                veh_track = TrackVehicle.objects.create(latitude=None, longitude=None,this_vehicle= vehicle )
+                veh_track.save()
+            except IntegrityError as e:
+                return HttpResponseRedirect( '/accounts/add_vehicle' )
+
         return HttpResponseRedirect( '/accounts/add_vehicle' )
     else:
         add_veh = AddVehicleForm()
@@ -202,10 +214,12 @@ def driver_login(request):
             passwd_veh = driv_log_in.cleaned_data['vehicle_password']
             #passwd_hashed = make_password(str(passwd_veh))
             user = User.objects.get( username=driver_code )
+            pk = user.id
             #user = authenticate( username=driver_code, password=passwd_veh )
             user.backend = 'django.contrib.auth.backends.ModelBackend'
+
             login( request, user)
-        return HttpResponseRedirect( '/' )
+        return HttpResponseRedirect( '/accounts/vehicle_login/')
     else:
         driv_log_in = DriverLogin()
 
@@ -252,6 +266,20 @@ def added_vehicle_details_view(request, pk):
             veh = Vehicle.objects.get( pk=pk )
             veh.delete()
             return HttpResponse( 'deleted' )
+        elif request.method == 'POST' and request.POST['track'] == 'Track':
+            print("Got")
+            try:
+                track_vehicle = TrackVehicle.objects.get(this_vehicle_id= pk)
+                print(track_vehicle.latitude)
+                return render(
+                    request,
+                    'Track_borrowed_vehicle.html',
+                    context={'track_vehicle': track_vehicle, }
+                )
+                #return HttpResponse("Booked")
+            except ObjectDoesNotExist:
+                print("Cannot found")
+                #HttpResponse("Cannot found")
     except MultiValueDictKeyError:
         HttpResponse("Internal Error")
 
@@ -262,3 +290,79 @@ def added_vehicle_details_view(request, pk):
         'AddedVehicleDetails.html',
         context={'vehicle': vehicle, }
     )
+
+def own_location_view(request):
+    if request.method == 'POST' and request.is_ajax:
+        post_text = request.body.decode('utf-8')
+        #print(post_text)
+        #post_text = json.load(request.body)
+
+        #print("Raw Data: ",re
+        # quest.body.decode('utf-8'))
+        # if not post_text is None:
+        # #
+        # #     print(post_text)
+        data = post_text.split('&')
+        lat = data[0].split("=")[1]
+        lon =  data[1].split("=")[1]
+        print(lat,lon)
+        user_ = request.user
+        print(user_.id)
+        pos = TrackVehicle.objects.get(this_vehicle__driver_code_name=user_)
+
+        pos.latitude = float(lat)
+        pos.longitude = float(lon)
+        pos.save()
+        # HttpResponse( " Got it" )
+    return render(
+        request,
+        'Vehicle_Own_Position.html',)
+
+def get_loc_data(request,pk):
+    global lan
+    track_vehicle = None
+    dicto = {}
+    print(pk)
+    try:
+        print("Yay")
+        request.session['pk'] = pk
+        # veh = Vehicle.objects.get( pk=pk )
+        # if not veh.client:
+        #     veh.client = request.user
+        #     veh.save()
+        # try:
+        #     if request.method == "GET":
+        #         track_vehicle = TrackVehicle.objects.get(this_vehicle_id= pk)
+        #         print(track_vehicle.latitude)
+        #         lan = track_vehicle.latitude
+        #         print(lan)
+        #         lng = track_vehicle.longitude
+        #         dicto["lan"] = lan
+        #         dicto ["lng"] = lng
+        #         #return HttpResponse("Booked")
+        #         return JsonResponse( dicto )
+        # except ObjectDoesNotExist:
+        #     print("Cannot found")
+        #     HttpResponse("Cannot found")
+    except MultiValueDictKeyError:
+        HttpResponse("Internal Error")
+    return render(request, 'Track_borrowed_vehicle.html', dicto)
+
+def get_data(request):
+    dicto={}
+    pk=request.session['pk']
+    try:
+
+        if request.method == "GET":
+            track_vehicle = TrackVehicle.objects.get( this_vehicle_id=pk )
+            print( track_vehicle.latitude )
+            lan = track_vehicle.latitude
+            print( lan )
+            lng = track_vehicle.longitude
+            dicto["lan"] = lan
+            dicto["lng"] = lng
+            # return HttpResponse("Booked")
+            return JsonResponse( dicto )
+    except ObjectDoesNotExist:
+        print( "Cannot found" )
+        HttpResponse( "Cannot found" )
