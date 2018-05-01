@@ -8,8 +8,12 @@
 {% endblock %}
 
 {% block content %}
-
-    <h1>{% trans "Add Vehicle" %}</h1>
+{#    <div class = "container">#}
+{#    <div class = "well well-sm-8"></div>#}
+{#    </div>#}
+    <div class = "container">
+        <div class = "well well-sm-8">
+            <h1>{% trans "Add Vehicle" %}</h1>
 
 
     <form method="POST" action="/accounts/add_vehicle/">
@@ -28,8 +32,12 @@
                     <div class="col-md-10 pull-left">
                     </div>
                 </div>
- {% endfor %}
+         {% endfor %}
 {#        {{ add_veh |bootstrap}}#}
         <p><button class = "btn btn-primary" type="submit">Add Vehicle</button></p>
- </form>
+    </form>
+    </div>
+    </div>
+
+
 {% endblock %}

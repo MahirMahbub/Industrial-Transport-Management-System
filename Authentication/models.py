@@ -60,6 +60,13 @@ class Vehicle(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE,related_name="client", null=True)
     place = models.CharField(max_length=200, null=True)
 
+    def get_absolute_url_borrowed(self):
+        """
+        Returns the url to access a particular instance of MyModelName.
+        """
+        print( reverse( 'Borrowed_vehicle_detail_view', args=[str( self.id )] ) )
+        return reverse( 'Borrowed_vehicle_detail_view', args=[str( self.id )] )
+
     def get_absolute_url_borrow(self):
         """
         Returns the url to access a particular instance of MyModelName.
@@ -93,7 +100,7 @@ class TrackVehicle(models.Model):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null= True)
     this_vehicle = models.OneToOneField(Vehicle, related_name="this_vehicle", on_delete = models.CASCADE, null=True)
-
+    time = models.CharField(null=True, max_length=200)
     def get_absolute_url_show(self):
         """
         Returns the url to access a particular instance of MyModelName.

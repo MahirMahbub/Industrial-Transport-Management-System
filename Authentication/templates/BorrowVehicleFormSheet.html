@@ -9,10 +9,12 @@
 
 {% block content %}
 
-    <h1>{% trans "Borrow Vehicle" %}</h1>
 
 
-    <form method="POST" action="/accounts/borrow_vehicle/">
+<div class = container>
+<div class = "well well-sm-8">
+<h1>{% trans "Borrow Vehicle" %}</h1>
+     <form method="POST" action="/accounts/borrow_vehicle/">
     {% csrf_token %}
         {% load bootstrap %}
          {% for field in borr_veh %}
@@ -31,6 +33,9 @@
                 </div>
          {% endfor %}
 {#        {{ add_veh |bootstrap}}#}
-        <p><button class = "btn btn-primary" type="submit">Add Vehicle</button></p>
+        <p><button class = "btn btn-primary" type="submit">Search Vehicle</button></p>
  </form>
+</div>
+</div>
+
 {% endblock %}

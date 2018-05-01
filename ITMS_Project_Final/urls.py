@@ -19,7 +19,7 @@ from django.urls import path, include
 from Authentication import views
 from Authentication.views import address_view, dummy, add_vehicle_view, driver_login, borrow_vehicle_view, \
     borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view, \
-    own_location_view, get_loc_data, get_data
+    own_location_view, get_loc_data, get_data, Borrowed_vehicle_details_view,Borrowed_vehicle_list_view
 
 #borrow_vehicle_view,borrow_vehicle_list_view
 
@@ -29,7 +29,7 @@ urlpatterns = [
     #path('accounts/logout/', 'django.contrib.auth.views.logout',{'next_page': '/'}),
     path('accounts/', include('allauth.urls')),
     path('accounts/address/',address_view, name = "address_view"),
-    path( '', dummy ),
+    path( '', dummy, name = "dummy" ),
     path('accunts/driver_login/',driver_login, name = "driver_login"),
     path('accounts/add_vehicle/', add_vehicle_view, name = "add_vehicle_view"),
     path('accounts/borrow_vehicle/', borrow_vehicle_view, name = "borrow_vehicle_view"),
@@ -41,4 +41,6 @@ urlpatterns = [
     path("accounts/vehicle_login/", own_location_view, name = "own_location_view"),
     path("accounts/get_loc_data/<int:pk>",get_loc_data, name = "get_loc_data"),
     path("accounts/get_data/",get_data, name = "get_data"),
+    path( 'accounts/borrowed_vehicle_list/', Borrowed_vehicle_list_view, name="Borrowed_vehicle_list_view" ),
+    path( 'accounts/borrowed_vehicle_details/<int:pk>', Borrowed_vehicle_details_view, name='Borrowed_vehicle_detail_view' ),
 ]

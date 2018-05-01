@@ -8,8 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>{% trans "Vehicle Details" %}</h2>
+<div class="container" >
+<div class = "well well-sm-8">
+
+     <h2>{% trans "Vehicle Details" %}</h2>
         <p class="list-group-item"> <strong>License No: </strong>{{ vehicle.license_no }}</p>
         <p class="list-group-item"> <strong>Chasis No: </strong>{{ vehicle.chassis_no }}</p>
         <p class="list-group-item"> <strong>Owner: </strong>{{ vehicle.user.username }}</p>
@@ -18,7 +20,7 @@
         <p class="list-group-item"> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
         <p class="list-group-item"> <strong>Model: </strong>{{ vehicle.model }}</p>
         <p class="list-group-item"> <strong>Driver Code Name: </strong>{{ vehicle.driver_code_name.username }}</p>
-
+        <p class="list-group-item"> <strong>Price: </strong>{{ prices }}</p>
         <p class="list-group-item"> <strong>Owner Address: </strong>{{ vehicle.user.address.city }},{{ vehicle.user.address.sub_district }}, {{ vehicle.user.address.district }}</p>
 {#        <button class = "btn btn-primary" type="submit" value="{{ vehicle.id }}">Book it</button>#}
         <form action="" method="post">
@@ -26,7 +28,9 @@
     <p>Are you sure you want to book "{{ object }}"?</p>
 {#        <input type="submit" value="Confirm" />#}
 {#            <input type="submit" name = "delete" value="Delete" />#}
-            <input type="submit" name = "book" value="Confirm" />
+            <button class = "btn btn-primary" type="submit" name = "book" value="Confirm" ></button>
 </form>
+</div>
+
 </div>
 {% endblock %}

@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'phonenumber_field',
     'bootstrapform',
-    'bootstrap3',
+    # 'bootstrap3',
     # 'django_private_chat',
 
 ]
@@ -189,3 +189,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # CHAT_WS_SERVER_HOST = 'localhost'
 # CHAT_WS_SERVER_PORT = 5002
 # CHAT_WS_SERVER_PROTOCOL = 'ws'
+#CSRF_COOKIE_HTTPONLY = False

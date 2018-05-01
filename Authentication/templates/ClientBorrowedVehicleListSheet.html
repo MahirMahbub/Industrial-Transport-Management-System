@@ -2,19 +2,18 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Add Vehicle" %}{% endblock %}
+{% block head_title %}{% trans "Borrowed Vehicle" %}{% endblock %}
 {% block extra_head %}
 
 {% endblock %}
 
 {% block content %}
-
-    <div class = "container">
+       <h1>{% trans "Borrowed Vehicle List" %}</h1>
+     <div class = "container">
     <div class = "well well-sm-8">
-        <h1>{% trans "Added Vehicle List" %}</h1>
-    <div class="list-group">
-    {% for vehicle in added_vehicle %}
-        <a class="list-group-item" href="{{ vehicle.get_absolute_url_added }}"  >
+        <div class="list-group">
+    {% for vehicle in borrowed_vehicle %}
+        <a class="list-group-item" href="{{ vehicle.get_absolute_url_borrowed }}"  >
         <div data-toggle="popover" data-trigger="hover" data-content="Click to see details" >
 {#        <p> <strong>License No: </strong>vehicle.license_no</p>#}
 {#        <p> <strong>Chasis No: </strong>vehicle.chassis_no</p>#}
@@ -27,7 +26,8 @@
     </div>
 
     </div>
-    </div>
+     </div>
+
 
     <script>
     $(document).ready(function(){
@@ -35,22 +35,22 @@
     });
     </script>
 
-{% if added_vehicle.has_other_pages %}
+{% if borrowed_vehicle.has_other_pages %}
   <ul class="pagination">
-    {% if added_vehicle.has_previous %}
-      <li><a href="?page={{ added_vehicle.previous_page_number }}">&laquo;</a></li>
+    {% if borrowed_vehicle.has_previous %}
+      <li><a href="?page={{ borrowed_vehicle.previous_page_number }}">&laquo;</a></li>
     {% else %}
       <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
-    {% for i in added_vehicle.paginator.page_range %}
-      {% if added_vehicle.number == i %}
+    {% for i in borrowed_vehicle.paginator.page_range %}
+      {% if borrowed_vehicle.number == i %}
         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
       {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
     {% if users.has_next %}
-      <li><a href="?page={{ added_vehicle.next_page_number }}">&raquo;</a></li>
+      <li><a href="?page={{ borrowed_vehicle.next_page_number }}">&raquo;</a></li>
     {% else %}
       <li class="disabled"><span>&raquo;</span></li>
     {% endif %}

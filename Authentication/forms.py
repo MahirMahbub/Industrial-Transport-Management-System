@@ -68,9 +68,11 @@ class BorrowVehicleForm(forms.ModelForm):
     journey_date = forms.DateField(widget=forms.SelectDateWidget())
     #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
     # p_address = forms.ModelMultipleChoiceField(queryset=None)
+    current_place = forms.CharField(max_length=200)
+    destination_place = forms.CharField(max_length=200)
     class Meta:
         model = Vehicle
-        fields = ('capacity', 'journey_date',)
+        fields = ('capacity', 'journey_date','current_place', 'destination_place')
         # widgets = {
         #     'journey_date': forms.DateTimeInput( attrs={'class': 'datetime-input'} )
         # }

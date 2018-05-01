@@ -1,21 +1,54 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Google Maps Example</title>
+
+
+
+{% extends "adminlte/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "My Vehicle Position" %}{% endblock %}
+{% block extra_head %}
+<title> </title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-  </head>
-  <body>
-    <div class="container">
-{#      <h1>PubNub Google Maps Tutorial - Live Device Location</h1>#}
-      <div id="map-canvas" style="width:600px;height:400px"></div>
-    </div>
+    <style>
+    .iframe-container{
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+}
+.iframe-container > *{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+    </style>
+{% endblock %}
 
+{% block content %}
+{#    <div class="container">#}
+{#      <h1>PubNub Google Maps Tutorial - Live Device Location</h1>#}
+{#      <div id="map-canvas" style="width:600px;height:400px"></div>#}
+{#    </div>#}
+ <div class="container">
+    <h1 class="text-center">{% trans "Borrowed Vehicle Location"%}</h1>
+        <div class = "well well-sm-8">
+      <div  style = " width: 800px; height: 400px; margin-bottom: 15px; border: 5px; position: relative; display: block; margin-right: auto; margin-left: auto;" id="map-canvas"></div>
+    </div>
+ </div>
+    <p id="time_update">KKK</p>
     <script>
     window.lat = 23.8103;
     window.lng = 90.4125;
+    window.time = "";
 
     function getLocation() {
             navigator.geolocation.getCurrentPosition(updatePosition);
@@ -35,16 +68,20 @@
         {#window.lat = position.coords.latitude;#}
         {#window.lng = position.coords.longitude;#}
         {#  console.log("{{ request.path }}");#}
+          document.getElementById("time_update").innerHTML = "Last Updated "+ (window.time).toString();
 
               $.get("{% url 'get_data' %}", function(data, status){
             {#alert("Data: " + data.lng + "\nStatus: " + status);#}
                   //console.log(data.lan)
                   window.lat = data.lan;
                   window.lng = data.lng;
+                  window.time = data.time
         });
         console.log(window.lat);
         map.setCenter({lat:window.lat, lng:window.lng, alt:0});
         mark.setPosition({lat:window.lat, lng:window.lng, alt:0});
+
+        console.log(window.time)
       }
     }
 
@@ -87,5 +124,5 @@
       pubnub.publish({channel:pnChannel, message:currentLocation()});}, 5000);
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD7ucF9SNLs-2XkWdaCAE6zZTGFEInrpNY&callback=initialize"></script>
-  </body>
-</html>
+
+{% endblock %}
