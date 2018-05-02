@@ -32,7 +32,7 @@
         {% block logo %}
         <div class="login-logo">
             {# Mirrors block names used in _main_header.html #}
-            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock %}</a>
+            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
         </div>
         {% endblock %}
         <!-- /.login-logo -->
@@ -62,9 +62,11 @@
   {% csrf_token %}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+
   {% endif %}
 <p>Are you sure that you want to log out? After logging out, You won't be able to continue your activity till next login.</p>
-  <button type="submit">{% trans 'Sign Out' %}</button>
+{#  <button type="submit">{% trans 'Sign Out' %}</button>#}
+ <button class = "btn btn-primary" type="submit" >{% trans 'Sign Out'%} </button>
 </form>
 
 

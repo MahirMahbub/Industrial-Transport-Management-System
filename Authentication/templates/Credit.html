@@ -1,0 +1,93 @@
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
+{% block extra_head %}
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">#}
+    <style>
+    #bo {
+        font-family: 'Tangerine', serif;
+        font-size: 30px;
+        text-shadow: 4px 4px 4px #aaa;
+    }
+        #card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 310px;
+            margin-left: 100px;
+            margin-right: 100px;
+            padding: 12px;
+            text-align: center;
+            font-family:sans-serif, Tangerine,"Times New Roman" ;
+            text-shadow: 2px 2px 2px #aaa;
+        }
+
+        .title {
+            color: grey;
+            font-size: 18px;
+        }
+
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        #al {
+            text-decoration: none;
+            font-size: 22px;
+            color: black;
+        }
+
+        #button:hover,
+        #al:hover {
+            opacity: 0.7;
+        }
+
+    </style>
+
+{% endblock %}
+
+{#{% block body_class %}{% endblock %}#}
+
+{% block content %}
+<blockquote class="blockquote text-center">
+<p class="mb-0" id = "bo">Thanks to the creator of this web site for their extensive and fruitful works.They gave massive amount of hard work on this website.This website is based on Django 2.0 web framework.</p>
+    </blockquote>
+    <!--<h2 style="text-align:center">User Profile Card</h2>-->
+    <div class="container">
+        <div class="row">
+            <div id="card" class="col-lg-6"> <img src="../../static/Credit/Image/mahir.jpg" alt="John" style="width:100%">
+                <h1>Mahir Mahbub</h1>
+                <p class="title">Web site developer</p>
+                <h4>Institute of Information Technology</h4>
+                <p>University of Dhaka</p>
+                <div style="margin: 24px 0;">  <a id = "al" href="https://twitter.com/MahirMahbub"><i class="fa fa-twitter"></i></a> <a id = "al" href="https://www.linkedin.com/in/mahirmahbub/"><i class="fa fa-linkedin"></i></a> <a id = "al" href="https://www.facebook.com/SandBoa"><i class="fa fa-facebook"></i></a> </div>
+                <p>
+{#                    <button>&nbsp;</button>#}
+                </p>
+            </div>
+            <div class="col-lg-auto"></div>
+
+            <div id="card" class="col-lg-6 col-lg-offset-10"> <img src="../../static/Credit/Image/tiger.png" alt="John" style="width:100%">
+                <h1>Sefat E Mahdi</h1>
+                <p class="title">Web site developer</p>
+                <h4>Institute of Information Technology</h4>
+                <p>University of Dhaka</p>
+                <div style="margin: 24px 0;">  <a id = "al" href="#"><i class="fa fa-twitter"></i></a> <a id = "al" href="#"><i class="fa fa-linkedin"></i></a> <a id = "al" href="https://www.facebook.com/mehedi.esefat"><i class="fa fa-facebook"></i></a> </div>
+                <p>
+{#                    <button>&nbsp;</button>#}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

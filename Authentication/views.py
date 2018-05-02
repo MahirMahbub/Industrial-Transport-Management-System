@@ -1,7 +1,7 @@
 import datetime
 import json
 from django.contrib import messages
-
+from permission import group_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
@@ -66,6 +66,7 @@ def address_view(request):
             current_address = Address.objects.create(district=district, sub_district=sub_district, city=city, zip=zip,phone_number =  phone_number)
             #user_profile.current_ = current_address
             current_address.user = user_profile
+            current_address.save()
             #
             #
             # phone_number = per_form.cleaned_data['phone_number']
@@ -94,6 +95,7 @@ def address_view(request):
     return render(request, 'AddressFormSheet.html', {'cur_form': cur_form})
 
 @login_required
+@group_required('Owner')
 def add_vehicle_view(request):
     if request.method == 'POST':
         add_veh = AddVehicleForm(request.POST)
@@ -140,7 +142,8 @@ def add_vehicle_view(request):
     #messages.info( request, 'You have added the vehicle successfully!' )
     return  render(request, 'AddVehicleFormSheet.html', {'add_veh': add_veh})
 
-
+@login_required
+@group_required('Client')
 def borrow_vehicle_view(request):
     borr_veh = None
     if request.method == 'POST':
@@ -170,6 +173,8 @@ def borrow_vehicle_view(request):
 
     return  render(request, 'BorrowVehicleFormSheet.html', {'borr_veh': borr_veh})
 
+@login_required
+@group_required('Client')
 def borrow_vehicle_list_view(request):
     _capacity = request.session.get('capacity')
     _journey_date = request.session.get('journey_date')
@@ -185,6 +190,8 @@ def borrow_vehicle_list_view(request):
         borrow_vehicle = paginator.page(paginator.num_pages)
     return render( request, 'BorrowVehicleListSheet.html', {'borrow_vehicle': borrow_vehicle} )
 
+@login_required
+@group_required('Client')
 def borrow_vehicle_details_view(request, pk):
     prices=0
     try:
@@ -561,7 +568,6 @@ def borrow_vehicle_details_view(request, pk):
         context={'vehicle': vehicle,'prices':prices }
     )
 
-
 def driver_login(request):
     if request.user.is_authenticated:
         logout(request)
@@ -599,6 +605,8 @@ def dummy(request):
 #     model = Vehicle
 #     success_url = reverse_lazy('borrow_vehicle_details_view')
 
+@login_required
+@group_required('Owner')
 def added_vehicle_list_view(request):
     user = request.user
     added_vehicle_list = Vehicle.objects.filter( user= user )
@@ -613,6 +621,8 @@ def added_vehicle_list_view(request):
         added_vehicle = paginator.page(paginator.num_pages)
     return render( request, 'AddVehiceListSheet.html', {'added_vehicle': added_vehicle} )
 
+@login_required
+@group_required('Owner')
 def added_vehicle_details_view(request, pk):
     request.session['pk'] = pk
     try:
@@ -669,6 +679,8 @@ def added_vehicle_details_view(request, pk):
         context={'vehicle': vehicle, }
     )
 
+@login_required
+@group_required('Driver')
 def own_location_view(request):
     if request.method == 'POST' and request.is_ajax:
         post_text = request.body.decode('utf-8')
@@ -699,6 +711,7 @@ def own_location_view(request):
         request,
         'Vehicle_Own_Position.html',)
 
+@login_required
 def get_loc_data(request,pk):
     global lan
     track_vehicle = None
@@ -757,6 +770,8 @@ def get_data(request):
 #
 #
 #
+@login_required
+@group_required('Client')
 def Borrowed_vehicle_list_view(request):
     user = request.user
     borrowed_vehicle_list = Vehicle.objects.filter( client= user )
@@ -771,6 +786,8 @@ def Borrowed_vehicle_list_view(request):
         borrowed_vehicle = paginator.page(paginator.num_pages)
     return render( request, 'ClientBorrowedVehicleListSheet.html', {'borrowed_vehicle': borrowed_vehicle} )
 
+@login_required
+@group_required('Client')
 def Borrowed_vehicle_details_view(request, pk):
     request.session['pk'] = pk
     try:
@@ -806,5 +823,9 @@ def Borrowed_vehicle_details_view(request, pk):
         'ClientBorrowedVehicleDetails.html',
         context={'vehicle': vehicle, }
     )
+
 def contact_us(request):
     return render( request, 'Contact.html' )
+
+def credit(request):
+    return render( request, 'Credit.html' )
