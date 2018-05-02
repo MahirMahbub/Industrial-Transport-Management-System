@@ -1,0 +1,141 @@
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
+{% block extra_head %}
+<title>Contact V17</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+{% endblock %}
+
+{% block body_class %}login-page{% endblock %}
+
+{% block content %}
+    <!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="../../static/Contact_Us/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/bootstrap/css/bootstrap.min.css">#}
+{#<!--===============================================================================================-->#}
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/fonts/font-awesome-4.7.0/css/font-awesome.css">#}
+<!--===============================================================================================-->
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">#}
+{#<!--===============================================================================================-->#}
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/animate/animate.css">#}
+{#<!--===============================================================================================-->#}
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/css-hamburgers/hamburgers.min.css">#}
+<!--===============================================================================================-->
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/animsition/css/animsition.min.css">#}
+{#<!--===============================================================================================-->#}
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/select2/select2.min.css">#}
+<!--===============================================================================================-->
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/vendor/daterangepicker/daterangepicker.css">#}
+<!--===============================================================================================-->
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/css/util.css">#}
+{#	<link rel="stylesheet" type="text/css" href="../../static/Contact_Us/css/main.css">#}
+<!--===============================================================================================-->
+{##}
+	<style>
+		#faa {
+		  padding: 20px;
+		  font-size: 30px;
+		  width: 100px;
+		  height :60px;
+		  text-align: center;
+		  text-decoration: none;
+		  margin: 5px 2px;}
+
+		.fa:hover {
+			opacity: 0.7;
+		}
+
+		.fa-facebook {
+		  background: #3B5998;
+		  color: white;
+		}
+
+		.fa-twitter {
+		  background: #55ACEE;
+		  color: white;
+		}
+
+		.fa-google {
+		  background: #dd4b39;
+		  color: white;
+		}
+
+
+	</style>
+<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Contact Us
+				</span>
+
+				<div class="container-contact100-form-btn">
+					<a id  = "faa" href="#" class="fa fa-facebook"> </a>
+					<a  id  = "faa" href="#" class="fa fa-twitter"></a>
+					<a  id  = "faa"  href="#" class="fa fa-google"></a>
+				</div>
+
+			</form>
+
+			<div class="contact100-more flex-col-c-m" style="background-image: url('../../static/Contact_Us/images/bg-01.jpg');">
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-map-marker"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							Address
+						</span>
+
+						<span class="txt2">
+							Institute of Information Technology,University of Dhaka,4th Floor
+						</span>
+					</div>
+				</div>
+
+				<div class="dis-flex size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-phone-handset"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							Lets Talk
+						</span>
+
+						<span class="txt3">
+							+8801774384799
+						</span>
+					</div>
+				</div>
+
+				<div class="dis-flex size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-envelope"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							General Support
+						</span>
+
+						<span class="txt3">
+							mahirmahbub07@gmail.com
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="dropDownSelect1"></div>
+
+
+
+{% endblock %}

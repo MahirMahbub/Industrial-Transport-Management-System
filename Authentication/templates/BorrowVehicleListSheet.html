@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <h1>{% trans "Availabble Vehicle" %}</h1>
+    <h1>{% trans "Available Vehicle" %}</h1>
     <div class="list-group">
     {% for vehicle in borrow_vehicle %}
         <a class="list-group-item" href="{{ vehicle.get_absolute_url_borrow }}"  >

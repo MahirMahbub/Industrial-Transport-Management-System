@@ -25,10 +25,15 @@
 {#        <button class = "btn btn-primary" type="submit" value="{{ vehicle.id }}">Book it</button>#}
         <form action="" method="post">
             {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+{#    <p>Are you sure you want to delete "{{ object }}"?</p>#}
 {#        <input type="submit" value="Confirm" />#}
-            <input type="submit" name = "delete" value="Delete" />
-            <input type="submit" name = "track" value="Track" />
+            <p>
+
+            </p>
+             <button class = "btn btn-primary" type="submit" name = "delete" value="Delete" >Delete</button>
+             <button class = "btn btn-primary" type="submit" name = "track" value="Track" >Track</button>
+{#            <input type="submit" name = "delete" value="Delete" />#}
+{#            <input type="submit" name = "track" value="Track" />#}
 </form>
 </div>
 </div>

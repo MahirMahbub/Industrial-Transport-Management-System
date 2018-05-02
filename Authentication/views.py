@@ -129,13 +129,15 @@ def add_vehicle_view(request):
                 vehicle.save()
                 veh_track = TrackVehicle.objects.create(latitude=None, longitude=None,this_vehicle= vehicle )
                 veh_track.save()
+
             except IntegrityError as e:
                 return HttpResponseRedirect( '/accounts/add_vehicle' )
-
-        return HttpResponseRedirect( '/accounts/add_vehicle' )
+        messages.info( request, 'You have added the vehicle successfully!' )
+        # return HttpResponseRedirect( '/accounts/add_vehicle' )
+        return redirect( add_vehicle_view)
     else:
         add_veh = AddVehicleForm()
-
+    #messages.info( request, 'You have added the vehicle successfully!' )
     return  render(request, 'AddVehicleFormSheet.html', {'add_veh': add_veh})
 
 
@@ -495,15 +497,15 @@ def borrow_vehicle_details_view(request, pk):
         prices = price[cur][pick]+price[pick][des]
         if datetime.datetime.now().month == 5 or datetime.datetime.now().month== 6:
             if vehicle.capacity >10:
-                prices = price*35
+                prices = prices*35
             else:
-                prices = price*30
+                prices = prices*30
 
         else:
             if vehicle.capacity >10:
-                prices = price*31
+                prices = prices*31
             else:
-                prices = price*27
+                prices = prices*27
 
 
     except Vehicle.DoesNotExist:
@@ -513,6 +515,7 @@ def borrow_vehicle_details_view(request, pk):
             veh = Vehicle.objects.get( pk=pk )
             if not veh.client:
                 veh.client = request.user
+                veh.place = request.session['destination_place']
                 veh.save()
                 message2 = "You have booked vehicle with license number: "+str(veh.license_no)+"Price: "+ str(prices)+'''
                 To contact with owner:
@@ -601,7 +604,7 @@ def added_vehicle_list_view(request):
     added_vehicle_list = Vehicle.objects.filter( user= user )
     page = request.GET.get('page', 1)
     #borrow_vehicle = None
-    paginator = Paginator(added_vehicle_list,2)
+    paginator = Paginator(added_vehicle_list,4)
     try:
         added_vehicle = paginator.page(page)
     except PageNotAnInteger:
@@ -614,31 +617,51 @@ def added_vehicle_details_view(request, pk):
     request.session['pk'] = pk
     try:
         vehicle = Vehicle.objects.get( pk=pk )
+        print("Found")
+        print(request.POST)
     except Vehicle.DoesNotExist:
         raise Http404( "Book does not exist" )
     try:
         if request.method == 'POST' and request.POST['delete'] == 'Delete':
             veh = Vehicle.objects.get( pk=pk )
-            veh.delete()
-            return HttpResponse( 'deleted' )
-        elif request.method == 'POST' and request.POST['track'] == 'Track':
-            print("Got")
-            try:
-                track_vehicle = TrackVehicle.objects.get(this_vehicle_id= pk)
-                print(track_vehicle.latitude)
-                return render(
-                    request,
-                    'Track_borrowed_vehicle.html',
-                    context={'track_vehicle': track_vehicle, }
-                )
-                #return HttpResponse("Booked")
-            except ObjectDoesNotExist:
-                print("Cannot found")
-                #HttpResponse("Cannot found")
-    except MultiValueDictKeyError:
-        HttpResponse("Internal Error")
+            if veh.client_id ==None:
+                print("Not Booked")
+                veh.delete()
+                messages.info(request,"Vehicle has been deleted")
+                return redirect(added_vehicle_list_view)
+            else:
+                messages.info(request,"Can not delete. Already Booked")
 
-    # book_id=get_object_or_404(Book, pk=pk)
+                print("Done")
+                return redirect(added_vehicle_details_view)
+            # return HttpResponse( 'deleted' )
+    except:
+        try:
+            if request.method == 'POST' and request.POST['track'] == 'Track':
+                print("Got")
+                try:
+                    track_vehicle = TrackVehicle.objects.get(this_vehicle_id= pk)
+                    print(track_vehicle.latitude)
+                    # return render(
+                    #     request,
+                    #     'Track_borrowed_vehicle.html',
+                    #     context={'track_vehicle': track_vehicle, }
+                    # )
+                    return render(
+                        request,
+                        'Vehicle_Position.html',
+                        context={'track_vehicle': track_vehicle, })
+                        #return HttpResponse("Booked")
+                except ObjectDoesNotExist:
+                    print("Cannot found")
+                    HttpResponse("Cannot found")
+            # print("ADADA")
+            # except MultiValueDictKeyError:
+            #     HttpResponse("Internal Error")
+
+            # book_id=get_object_or_404(Book, pk=pk)
+        except MultiValueDictKeyError:
+            Http404("Internal Error")
 
     return render(
         request,
@@ -739,7 +762,7 @@ def Borrowed_vehicle_list_view(request):
     borrowed_vehicle_list = Vehicle.objects.filter( client= user )
     page = request.GET.get('page', 1)
     #borrow_vehicle = None
-    paginator = Paginator(borrowed_vehicle_list,2)
+    paginator = Paginator(borrowed_vehicle_list,4)
     try:
         borrowed_vehicle = paginator.page(page)
     except PageNotAnInteger:
@@ -783,3 +806,5 @@ def Borrowed_vehicle_details_view(request, pk):
         'ClientBorrowedVehicleDetails.html',
         context={'vehicle': vehicle, }
     )
+def contact_us(request):
+    return render( request, 'Contact.html' )

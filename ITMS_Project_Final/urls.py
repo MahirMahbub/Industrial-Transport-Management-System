@@ -19,7 +19,7 @@ from django.urls import path, include
 from Authentication import views
 from Authentication.views import address_view, dummy, add_vehicle_view, driver_login, borrow_vehicle_view, \
     borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view, \
-    own_location_view, get_loc_data, get_data, Borrowed_vehicle_details_view,Borrowed_vehicle_list_view
+    own_location_view, get_loc_data, get_data, Borrowed_vehicle_details_view, Borrowed_vehicle_list_view, contact_us
 
 #borrow_vehicle_view,borrow_vehicle_list_view
 
@@ -43,4 +43,5 @@ urlpatterns = [
     path("accounts/get_data/",get_data, name = "get_data"),
     path( 'accounts/borrowed_vehicle_list/', Borrowed_vehicle_list_view, name="Borrowed_vehicle_list_view" ),
     path( 'accounts/borrowed_vehicle_details/<int:pk>', Borrowed_vehicle_details_view, name='Borrowed_vehicle_detail_view' ),
+    path ('accounts/contact_us', contact_us, name  = "contact_us"),
 ]
