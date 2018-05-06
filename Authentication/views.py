@@ -17,7 +17,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import DeleteView
 
 from Authentication.forms import CurrentAddressForm, PermanentAddressForm, AddVehicleForm,DriverLogin, BorrowVehicleForm
-from Authentication.models import Address, UserProfile, Vehicle, TrackVehicle
+from Authentication.models import Address, UserProfile, Vehicle, TrackVehicle, LocationVehicle
 from django.contrib.auth import logout, authenticate, login
 
 
@@ -131,6 +131,8 @@ def add_vehicle_view(request):
                 vehicle.save()
                 veh_track = TrackVehicle.objects.create(latitude=None, longitude=None,this_vehicle= vehicle )
                 veh_track.save()
+                veh_loc = LocationVehicle.objects.create(destination=None,start_place=place,middle_place=None,vehicle=vehicle)
+                veh_loc.save()
 
             except IntegrityError as e:
                 return HttpResponseRedirect( '/accounts/add_vehicle' )
@@ -499,9 +501,14 @@ def borrow_vehicle_details_view(request, pk):
                                 'Rangpur': 485, 'Satkhira': 145, 'Shariatpur': 101, 'Sherpur': 370, 'Sirajganj': 316,
                                 'Sunamjang': 474, 'Sylhet': 418, 'Tangail': 275, 'Thakurgaon': 587}}
         cur = str(vehicle.place)
+        print(cur)
+
         pick = str(request.session['current_place'])
+        print(pick)
         des = str(request.session['destination_place'])
+        print(des)
         prices = price[cur][pick]+price[pick][des]
+
         if datetime.datetime.now().month == 5 or datetime.datetime.now().month== 6:
             if vehicle.capacity >10:
                 prices = prices*35
@@ -524,6 +531,11 @@ def borrow_vehicle_details_view(request, pk):
                 veh.client = request.user
                 veh.place = request.session['destination_place']
                 veh.save()
+                veh_loc = LocationVehicle.objects.get( vehicle=vehicle )
+                veh_loc.destination = des
+                veh_loc.middle_place = pick
+                veh_loc.start_place = cur
+                veh_loc.save()
                 message2 = "You have booked vehicle with license number: "+str(veh.license_no)+"Price: "+ str(prices)+'''
                 To contact with owner:
                 Owner Name:'''+ str(veh.user.username)+'''
@@ -565,7 +577,7 @@ def borrow_vehicle_details_view(request, pk):
     return render(
         request,
         'BorrowVehicleDetails.html',
-        context={'vehicle': vehicle,'prices':prices }
+        context={'vehicle': vehicle,'prices':prices, 'des':des, 'cur' :cur, "pick":pick }
     )
 
 def driver_login(request):
@@ -583,7 +595,7 @@ def driver_login(request):
             user.backend = 'django.contrib.auth.backends.ModelBackend'
 
             login( request, user)
-        return HttpResponseRedirect( '/accounts/vehicle_login/')
+        return HttpResponseRedirect( '/accounts/vehicle_pos/')
     else:
         driv_log_in = DriverLogin()
 
@@ -792,6 +804,8 @@ def Borrowed_vehicle_details_view(request, pk):
     request.session['pk'] = pk
     try:
         vehicle = Vehicle.objects.get( pk=pk )
+        veh_loc = LocationVehicle.objects.get(vehicle=vehicle)
+
     except Vehicle.DoesNotExist:
         raise Http404( "Book does not exist" )
     try:
@@ -811,6 +825,7 @@ def Borrowed_vehicle_details_view(request, pk):
                 )
                 #return HttpResponse("Booked")
             except ObjectDoesNotExist:
+
                 print("Cannot found")
                 #HttpResponse("Cannot found")
     except MultiValueDictKeyError:
@@ -821,10 +836,12 @@ def Borrowed_vehicle_details_view(request, pk):
     return render(
         request,
         'ClientBorrowedVehicleDetails.html',
-        context={'vehicle': vehicle, }
+        context={'vehicle': vehicle,"loc_veh":veh_loc}
     )
 
+
 def contact_us(request):
+
     return render( request, 'Contact.html' )
 
 def credit(request):

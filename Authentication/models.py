@@ -107,3 +107,9 @@ class TrackVehicle(models.Model):
         """
         print( reverse( 'get_loc_data', args=[str( self.id )] ) )
         return reverse( 'get_loc_data', args=[str( self.id )] )
+
+class LocationVehicle(models.Model):
+    destination = models.CharField(null = True, max_length=200)
+    middle_place = models.CharField(null=True, max_length=200)
+    start_place = models.CharField(null=True, max_length=200)
+    vehicle = models.OneToOneField(Vehicle, related_name="vehicle", on_delete = models.CASCADE)

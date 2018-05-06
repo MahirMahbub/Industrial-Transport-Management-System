@@ -39,7 +39,7 @@ urlpatterns = [
     path('accounts/added_vehicle_list/', added_vehicle_list_view, name = "added_vehicle_list_view"),
     path('accounts/added_vehicle_details/<int:pk>', added_vehicle_details_view, name='added_vehicle_detail_view'),
     # path( 'chat/', include( 'django_private_chat.urls' ) ),
-    path("accounts/vehicle_login/", own_location_view, name = "own_location_view"),
+    path("accounts/vehicle_pos/", own_location_view, name = "own_location_view"),
     path("accounts/get_loc_data/<int:pk>",get_loc_data, name = "get_loc_data"),
     path("accounts/get_data/",get_data, name = "get_data"),
     path( 'accounts/borrowed_vehicle_list/', Borrowed_vehicle_list_view, name="Borrowed_vehicle_list_view" ),
