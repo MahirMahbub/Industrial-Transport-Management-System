@@ -20,7 +20,7 @@ from Authentication import views
 from Authentication.views import address_view, dummy, add_vehicle_view, driver_login, borrow_vehicle_view, \
     borrow_vehicle_list_view, borrow_vehicle_details_view, added_vehicle_list_view, added_vehicle_details_view, \
     own_location_view, get_loc_data, get_data, Borrowed_vehicle_details_view, Borrowed_vehicle_list_view, contact_us, \
-    credit
+    credit, MyProfileView
 
 #borrow_vehicle_view,borrow_vehicle_list_view
 
@@ -46,4 +46,5 @@ urlpatterns = [
     path( 'accounts/borrowed_vehicle_details/<int:pk>', Borrowed_vehicle_details_view, name='Borrowed_vehicle_detail_view' ),
     path ('accounts/contact_us', contact_us, name  = "contact_us"),
     path ('accounts/credit', credit, name  = "credit"),
+    path('accounts/my_profile', MyProfileView, name = "MyProfileView"),
 ]

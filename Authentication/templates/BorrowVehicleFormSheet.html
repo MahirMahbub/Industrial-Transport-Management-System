@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Add Vehicle" %}{% endblock %}
+{% block head_title %}{% trans "BorrowVehicle" %}{% endblock %}
 {% block extra_head %}
 
 {% endblock %}
@@ -23,7 +23,7 @@
 
 {#                        {{ field.label_tag }}#}
                         {% if field.help_text %}
-                            <sup>{{ field.help_text }}</sup>
+{#                            <sup>{{ field.help_text }}</sup>#}
                         {% endif %}
                         {{ field.errors }}
                         {{ field | bootstrap}}

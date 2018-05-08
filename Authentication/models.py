@@ -53,7 +53,7 @@ class Vehicle(models.Model):
     license_no = models.CharField(max_length=200)
     chassis_no = models.CharField(max_length=200)
     journey_date = models.DateField(default=datetime.date.today, null=True)
-    capacity = models.FloatField(default=0.0)
+    capacity = models.FloatField(default=0.0,  help_text = 'Capacity in Ton')
     model = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     driver_code_name = models.OneToOneField( User, on_delete=models.CASCADE,related_name="driver_code", null = True)

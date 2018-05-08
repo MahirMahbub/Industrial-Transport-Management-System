@@ -64,12 +64,15 @@ class AddVehicleForm(forms.ModelForm):
         #     'journey_date': forms.DateTimeInput( attrs={'class': 'datetime-input'} )
         # }
 class BorrowVehicleForm(forms.ModelForm):
-    capacity = forms.FloatField()
+    capacity = forms.FloatField(help_text = 'Capacity in Ton')
     journey_date = forms.DateField(widget=forms.SelectDateWidget())
     #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
     # p_address = forms.ModelMultipleChoiceField(queryset=None)
-    current_place = forms.CharField(max_length=200)
-    destination_place = forms.CharField(max_length=200)
+    from .choices import DISTRICT_LIST
+    # capacity = forms.FloatField(default=0.0)
+
+    current_place = forms.ChoiceField(choices=DISTRICT_LIST )
+    destination_place = forms.ChoiceField(choices=DISTRICT_LIST)
     class Meta:
         model = Vehicle
         fields = ('capacity', 'journey_date','current_place', 'destination_place')
