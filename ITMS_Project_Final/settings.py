@@ -59,12 +59,12 @@ INSTALLED_APPS = [
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 SITE_ID = 1
 #AUTH_USER_MODEL = 'user.User'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = BASE_DIR
-STATIC_ROOT = ""
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
+# # PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# PROJECT_DIR = BASE_DIR
+# STATIC_ROOT = ""
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
