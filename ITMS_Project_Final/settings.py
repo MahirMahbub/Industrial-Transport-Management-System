@@ -64,7 +64,7 @@ SITE_ID = 1
 # ]
 # # PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 # PROJECT_DIR = BASE_DIR
-# STATIC_ROOT = ""
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
