@@ -31,7 +31,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/address/',address_view, name = "address_view"),
     path( '', dummy, name = "dummy" ),
-    path('accunts/driver_login/',driver_login, name = "driver_login"),
+    path('accounts/driver_login/',driver_login, name = "driver_login"),
     path('accounts/add_vehicle/', add_vehicle_view, name = "add_vehicle_view"),
     path('accounts/borrow_vehicle/', borrow_vehicle_view, name = "borrow_vehicle_view"),
     path('accounts/borrow_vehicle_list/', borrow_vehicle_list_view, name = "borrow_vehicle_list_view"),

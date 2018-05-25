@@ -69,9 +69,13 @@
                     <p class="list-group-item"> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
                     <p class="list-group-item"> <strong>Model: </strong>{{ vehicle.model }}</p>
                     <p class="list-group-item"> <strong>Driver Code Name: </strong>{{ vehicle.driver_code_name.username }}</p>
-                    <p class="list-group-item"> <strong>Price: </strong>{{ prices }}/-</p>
+                    {% if prices %}
+                    <p class="list-group-item"> <strong>Price: </strong>{{ prices|floatformat:2 }}/-</p>
+                    {% endif%}
+                    {% if vehicle.user.address %}
                     <p class="list-group-item"> <strong>Owner Address: </strong>{{ vehicle.user.address.city }},{{ vehicle.user.address.sub_district }}, {{ vehicle.user.address.district }}</p>
                     {#        <button class = "btn btn-primary" type="submit" value="{{ vehicle.id }}">Book it</button>#}
+                    {% endif %}
                     <br/>
                     <br/>
 {#                    <form action="" method="post">#}
@@ -115,9 +119,10 @@
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     zoom: 6,
                                     center: {
-                                        lat: 41.85,
-                                        lng: -87.65
+                                        lat: 23.7806365,
+                                        lng: 90.4193257
                                     }
+
                                 });
                                 directionsDisplay.setMap(map);
                                 //            document.getElementById('submit').addEventListener('click', function() {
@@ -151,13 +156,20 @@
                                         // For each route, display summary information.
                                         for (var i = 0; i < route.legs.length; i++) {
                                             var routeSegment = i + 1;
-                                            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                                            if (routeSegment===1){
+                                                summaryPanel.innerHTML += '<b>Current Place to Pick Point: ' + '</b><br>';
+                                            }
+                                            else if (routeSegment===2){
+                                                summaryPanel.innerHTML += '<b>Pick Point to Destination Place: ' + '</b><br>';
+
+                                            }
                                             summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
                                             summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
                                             summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
                                         }
                                     } else {
                                         window.alert('Directions request failed due to ' + status);
+                                        {#document.getElementById('map').style.display = 'none';#}
                                     }
                                 });
                             }

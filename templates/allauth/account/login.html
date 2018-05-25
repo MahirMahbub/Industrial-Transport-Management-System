@@ -75,10 +75,10 @@
 {% block body %}
     <div class="login-box">
         {% block logo %}
-        <div class="login-logo">
-            {# Mirrors block names used in _main_header.html #}
-            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
-        </div>
+            <div class="login-logo">
+                {# Mirrors block names used in _main_header.html #}
+                <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
+            </div>
         {% endblock %}
         <!-- /.login-logo -->
         <div class="login-box-body">
@@ -90,50 +90,50 @@
                     </p>
                 {% endif %}
 
-{#                {% if form.non_field_errors %}#}
-{#                    {% for error in form.non_field_errors %}#}
-{#                        <p class="alert alert-danger">#}
-{#                            {{ error }}#}
-{#                        </p>#}
-{#                    {% endfor %}#}
-{#                {% endif %}#}
+                {#                {% if form.non_field_errors %}#}
+                {#                    {% for error in form.non_field_errors %}#}
+                {#                        <p class="alert alert-danger">#}
+                {#                            {{ error }}#}
+                {#                        </p>#}
+                {#                    {% endfor %}#}
+                {#                {% endif %}#}
             {% endblock login_errors %}
 
             {% block login_form %}
 
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-{#{% load bootstrap3 %}#}
-  {% csrf_token %}
-{% load bootstrap %}
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {#{% load bootstrap3 %}#}
+                    {% csrf_token %}
+                    {% load bootstrap %}
 
-{{ form|bootstrap }}
-{#{% for field in form %}#}
-{#    <div class="row">#}
-{#       <div class="col-md-2">#}
-{#        {{ field.label_tag }}#}
-{#        {% if field.help_text %}#}
-{#          <sup>{{ field.help_text }}</sup>#}
-{#        {% endif %}#}
-{#        {{ field.errors }}#}
-{#         {{ field }}#}
-{#       </div><div class="col-md-10 pull-left">#}
-{##}
-{#       </div>#}
-{#    </div>#}
-{# {% endfor %}#}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-<div class="row">
-  <div class="col-sm-6"><a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></div>
-  <div class="col-sm-pull-6"><a class="button secondaryAction" href="{% url 'account_signup' %}">{% trans "Did not have account?" %}</a></div>
-</div>
-{#  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
-{#   <a class="button secondaryAction" href="{% url 'account_signup' %}">{% trans "Did not have account?" %}</a>#}
-  <br/>
-    <button class="btn btn-primary" type="submit" >{% trans "Sign In" %}</button>
-</form>
+                    {{ form|bootstrap }}
+                    {#{% for field in form %}#}
+                    {#    <div class="row">#}
+                    {#       <div class="col-md-2">#}
+                    {#        {{ field.label_tag }}#}
+                    {#        {% if field.help_text %}#}
+                    {#          <sup>{{ field.help_text }}</sup>#}
+                    {#        {% endif %}#}
+                    {#        {{ field.errors }}#}
+                    {#         {{ field }}#}
+                    {#       </div><div class="col-md-10 pull-left">#}
+                    {##}
+                    {#       </div>#}
+                    {#    </div>#}
+                    {# {% endfor %}#}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-sm-6"><a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></div>
+                        <div class="col-sm-pull-6"><a class="button secondaryAction" href="{% url 'account_signup' %}">{% trans "Did not have account?" %}</a></div>
+                    </div>
+                    {#  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
+                    {#   <a class="button secondaryAction" href="{% url 'account_signup' %}">{% trans "Did not have account?" %}</a>#}
+                    <br/>
+                    <button class="btn btn-primary" type="submit" >{% trans "Sign In" %}</button>
+                </form>
 
 
 

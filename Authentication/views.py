@@ -5,7 +5,7 @@ from permission import group_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import IntegrityError
@@ -180,16 +180,17 @@ def borrow_vehicle_view(request):
 def borrow_vehicle_list_view(request):
     _capacity = request.session.get('capacity')
     _journey_date = request.session.get('journey_date')
-    borrow_vehicle_list = Vehicle.objects.filter( capacity__gte= _capacity ).exclude(journey_date__lte=_journey_date).exclude(client_id__isnull=False)
+    borrow_vehicle_list = Vehicle.objects.filter( capacity__gte= _capacity ).exclude(journey_date__lte=_journey_date).exclude(client_id__isnull=False).order_by('capacity')
     page = request.GET.get('page', 1)
     #borrow_vehicle = None
-    paginator = Paginator(borrow_vehicle_list,2)
+    paginator = Paginator(borrow_vehicle_list,3)
     try:
         borrow_vehicle = paginator.page(page)
     except PageNotAnInteger:
         borrow_vehicle = paginator.page(1)
     except EmptyPage:
         borrow_vehicle = paginator.page(paginator.num_pages)
+    print(borrow_vehicle_list)
     return render( request, 'BorrowVehicleListSheet.html', {'borrow_vehicle': borrow_vehicle} )
 
 @login_required
@@ -211,16 +212,17 @@ def borrow_vehicle_details_view(request, pk):
         # except:
         from geopy.geocoders import Nominatim
         from geopy.distance import geodesic
-        geolocator = Nominatim()
+        geolocator = Nominatim(timeout=10)
         cur = str( vehicle.place )
         des = str( request.session['destination_place'] )
         pick = str( request.session['current_place'] )
-        location1 = geolocator.geocode( str(request.session['current_place']) )
+        location1 = geolocator.geocode( str(request.session['current_place'])+" bd" )
         location2 = geolocator.geocode( str(vehicle.place)+" bd")
         location3 = geolocator.geocode( str(request.session['destination_place'])+" bd")
         pos1 = (location1.latitude, location1.longitude)
         pos2 = (location2.latitude, location2.longitude)
         pos3 = (location3.latitude, location3.longitude)
+        print(pos1,pos2,pos3)
         prices = geodesic( pos1, pos2 ).km+geodesic( pos1, pos3).km
 
         if datetime.datetime.now().month == 5 or datetime.datetime.now().month== 6:
@@ -303,15 +305,28 @@ def driver_login(request):
             driver_code = driv_log_in.cleaned_data['driver_code']
             passwd_veh = driv_log_in.cleaned_data['vehicle_password']
             #passwd_hashed = make_password(str(passwd_veh))
-            user = User.objects.get( username=driver_code )
-            pk = user.id
-            #user = authenticate( username=driver_code, password=passwd_veh )
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            try:
+                user = User.objects.get( username=driver_code )
 
-            login( request, user)
+                pk = user.id
+                #user = authenticate( username=driver_code, password=passwd_veh )
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+
+                login( request, user)
+                raise ValidationError( "username password didn't match" )
+            except:
+                messages.add_message( request,level=True, message="Wrong username or password" )
+                #messages.ERROR=True
+                #driv_log_in.add_error(, "Wrong username oe password" )
+                return HttpResponseRedirect(request.path_info)
+        else:
+            messages.add_message( request, level=True, message="Wrong username or password" )
+            driv_log_in.add_error( "driver_code", "Wrong username oe password" )
         return HttpResponseRedirect( '/accounts/vehicle_pos/')
     else:
+        messages.add_message( request, level=True, message="Wrong username or password" )
         driv_log_in = DriverLogin()
+
 
     return render( request, 'DriverLogin.html', {'form': driv_log_in} )
 

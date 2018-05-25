@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <h1>{% trans "Available Vehicle" %}</h1>
+    <h1 align="center">{% trans "Available Vehicle" %}</h1>
     <div class="list-group">
     {% for vehicle in borrow_vehicle %}
         <a class="list-group-item" href="{{ vehicle.get_absolute_url_borrow }}"  >
@@ -18,16 +18,16 @@
 {#        <p> <strong>Chasis No: </strong>vehicle.chassis_no</p>#}
 {#        <p> <strong>Owner: </strong>vehicle.user.username</p>#}
             <h4 class="list-group-item-heading"> <strong>Model: </strong>{{ vehicle.model }}</h4>
-            <p> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
-{#            <p> <strong>Rent Price: </strong>{{ price }} ton</p>#}
+            <hr/>
+            <p > <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
+            <p> <strong>Current Position: </strong>{{vehicle.place}} </p>
             </div>
         </a>
     {% endfor %}
     </div>
     <script>
     $(document).ready(function(){
-        $('[data-toggle="popover"]').popover();
-    });
+        $('[data-toggle="popover"]').popover();});
     </script>
 
 {% if borrow_vehicle.has_other_pages %}
@@ -51,7 +51,7 @@
     {% endif %}
   </ul>
 {% endif %}
-    <div style="margin-left:20px;margin-top:20px">
+    <div align="center" style="margin-left:20px;margin-top:20px">
 
     </div>
 

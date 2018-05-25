@@ -15,25 +15,29 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             {% block login_errors %}
-                {% if form.errors and not form.non_field_errors %}
+                {% for i in messages %}
+                    {{ i }}
+
+                {% endfor %}
+                {% if form.errors %}
                     <p class="alert alert-danger">
                         {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
                             {% trans "Please correct the errors below." %}{% endif %}
                     </p>
                 {% endif %}
 
-{#                {% if form.non_field_errors %}#}
-{#                    {% for error in form.non_field_errors %}#}
-{#                        <p class="alert alert-danger">#}
-{#                            {{ error }}#}
-{#                        </p>#}
-{#                    {% endfor %}#}
-{#                {% endif %}#}
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
             {% endblock login_errors %}
 
             {% block login_form %}
 
-<form class="login" method="POST" action="/accunts/driver_login/">
+<form class="login" method="POST" action="{% url 'driver_login' %}">
 {#{% load bootstrap3 %}#}
   {% csrf_token %}
 {% load bootstrap %}

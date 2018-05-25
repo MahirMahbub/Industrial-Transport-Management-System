@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'phonenumber_field',
+    # 'phonenumber_field',
     'bootstrapform',
     # 'bootstrap3',
     # 'django_private_chat',
