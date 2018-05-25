@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from phonenumber_field.formfields import PhoneNumberField
+# from phonenumber_field.formfields import PhoneNumberField
 from Authentication.models import Address, Vehicle, UserProfile
 # from bootstrap_datepicker.widgets import DatePicker
 from django.contrib.admin import widgets

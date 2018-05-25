@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -59,10 +59,12 @@ INSTALLED_APPS = [
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 SITE_ID = 1
 #AUTH_USER_MODEL = 'user.User'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
+# # PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# PROJECT_DIR = BASE_DIR
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
