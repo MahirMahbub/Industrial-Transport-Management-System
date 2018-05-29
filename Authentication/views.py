@@ -180,7 +180,7 @@ def borrow_vehicle_view(request):
 def borrow_vehicle_list_view(request):
     _capacity = request.session.get('capacity')
     _journey_date = request.session.get('journey_date')
-    borrow_vehicle_list = Vehicle.objects.filter( capacity__gte= _capacity ).exclude(journey_date__lte=_journey_date).exclude(client_id__isnull=False).order_by('capacity')
+    borrow_vehicle_list = Vehicle.objects.filter( capacity__gte= _capacity ).exclude(journey_date__gte=_journey_date).exclude(client_id__isnull=False).order_by('capacity')
     page = request.GET.get('page', 1)
     #borrow_vehicle = None
     paginator = Paginator(borrow_vehicle_list,3)
@@ -305,20 +305,20 @@ def driver_login(request):
             driver_code = driv_log_in.cleaned_data['driver_code']
             passwd_veh = driv_log_in.cleaned_data['vehicle_password']
             #passwd_hashed = make_password(str(passwd_veh))
-            try:
-                user = User.objects.get( username=driver_code )
+            user = User.objects.get( username=driver_code )
 
-                pk = user.id
-                #user = authenticate( username=driver_code, password=passwd_veh )
-                user.backend = 'django.contrib.auth.backends.ModelBackend'
+            pk = user.id
+            #user = authenticate( username=driver_code, password=passwd_veh )
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
 
-                login( request, user)
-                raise ValidationError( "username password didn't match" )
-            except:
-                messages.add_message( request,level=True, message="Wrong username or password" )
-                #messages.ERROR=True
-                #driv_log_in.add_error(, "Wrong username oe password" )
-                return HttpResponseRedirect(request.path_info)
+            login( request, user)
+            #raise ValidationError( "username password didn't match" )
+            # except:
+            #
+            #     messages.add_message( request,level=True, message="Wrong username or password" )
+            #     #messages.ERROR=True
+            #     #driv_log_in.add_error(, "Wrong username oe password" )
+            #     return HttpResponseRedirect(request.path_info)
         else:
             messages.add_message( request, level=True, message="Wrong username or password" )
             driv_log_in.add_error( "driver_code", "Wrong username oe password" )

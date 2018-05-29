@@ -16,10 +16,10 @@
 {% block body %}
     <div class="login-box">
         {% block logo %}
-        <div class="login-logo">
-            {# Mirrors block names used in _main_header.html #}
-            <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock %}</a>
-        </div>
+            <div class="login-logo">
+                {# Mirrors block names used in _main_header.html #}
+                <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>ITMS</b>{% endblock %}</a>
+            </div>
         {% endblock %}
         <!-- /.login-logo -->
         <div class="login-box-body">
@@ -43,14 +43,14 @@
             {% block login_form %}
 
 
- <form method="POST" action="/accounts/address/">
-  {% csrf_token %}
-     {% load bootstrap %}
-     <h2>Current Address:</h2>
+                <form method="POST" action="{% url 'address_view' %}">
+                    {% csrf_token %}
+                    {% load bootstrap %}
+                    <h2>Current Address:</h2>
 
-     {{ cur_form| bootstrap}}
-     <p><button class = "btn btn-primary" type="submit">Save Address</button></p>
- </form>
+                    {{ cur_form| bootstrap}}
+                    <p><button class = "btn btn-primary" type="submit">Save Address</button></p>
+                </form>
 
 
 
