@@ -22,9 +22,7 @@
                 <div class="row">
                     <div class="col-md-2">
 {#                        {{ field.label_tag }}#}
-                        {% if field.help_text %}
-                            <sup>{{ field.help_text }}</sup>
-                        {% endif %}
+
                         {{ field.errors }}
                         {{ field | bootstrap}}
                     </div>

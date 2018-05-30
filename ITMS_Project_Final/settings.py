@@ -112,23 +112,23 @@ WSGI_APPLICATION = 'ITMS_Project_Final.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-#MySql Database Setup
-#
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ITMS_DB',
-#         'USER': 'root',
-#         'PASSWORD': 'iit123',
-#         'STORAGE_ENGINE': 'MyISAM',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+#MySql Database Setup
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ITMSDB',
+        'USER': 'root',
+        'PASSWORD': 'iit12345',
+        'STORAGE_ENGINE': 'MyISAM',
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 

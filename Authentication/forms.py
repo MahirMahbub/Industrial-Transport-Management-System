@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 # from phonenumber_field.formfields import PhoneNumberField
+from Authentication.choices import DISTRICT_LIST
 from Authentication.models import Address, Vehicle, UserProfile
 # from bootstrap_datepicker.widgets import DatePicker
 from django.contrib.admin import widgets
@@ -50,10 +51,10 @@ class AddVehicleForm(forms.ModelForm):
     driver_code = forms.CharField(max_length=200)
     license_no = forms.CharField(max_length=200)
     chassis_no = forms.CharField(max_length=200)
-    capacity = forms.FloatField()
+    capacity = forms.FloatField(help_text="capacity in ton")
     model = forms.CharField(max_length=200)
-    place = forms.CharField(max_length=200)
-    vehicle_password = forms.CharField(widget=forms.PasswordInput)
+    place = forms.ChoiceField(choices=DISTRICT_LIST )
+    vehicle_password = forms.CharField(widget=forms.PasswordInput, help_text="password should be 6 character long with letter and number")
     # journey_date = forms.DateField(widget=forms.SelectDateWidget())
     #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
     # p_address = forms.ModelMultipleChoiceField(queryset=None)
@@ -68,7 +69,7 @@ class BorrowVehicleForm(forms.ModelForm):
     journey_date = forms.DateField(widget=forms.SelectDateWidget())
     #DateInput( attrs={'size': '15', 'id': 'datepicker', 'readonly': 'readonly'} ))
     # p_address = forms.ModelMultipleChoiceField(queryset=None)
-    from .choices import DISTRICT_LIST
+
     # capacity = forms.FloatField(default=0.0)
 
     current_place = forms.ChoiceField(choices=DISTRICT_LIST )
