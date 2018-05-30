@@ -16,6 +16,34 @@
     {% endblock %}
 
     {% block stylesheets %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            @mixin center(){
+                -webkit-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+                left:50%;
+                top:50%;
+            }
+
+
+            @import url(https://fonts.googleapis.com/css?family=Raleway:400,,800,900);
+
+            .Title{
+                font-weight: 900;
+                color: transparent;
+                font-size:50px;
+                background: url("https://phandroid.s3.amazonaws.com/wp-content/uploads/2014/05/rainbow-nebula.jpg") repeat;
+                background-position: 40% 50%;
+                -webkit-background-clip: text;
+                position:relative;
+                text-align:center;
+                line-height:90px;
+                letter-spacing: 0px;
+            }
+
+        </style>
         {% include 'adminlte/lib/_styles.html' %}
     {% endblock %}
 
@@ -29,6 +57,54 @@
 <body class="hold-transition skin-blue sidebar-mini {% block body_class %}{% block bodyclass %}{% endblock %}{% endblock %}">
 
 {% block body %}
+    <script>
+    $(document).ready(function(){
+  var mouseX, mouseY;
+  var ww = $( window ).width();
+  var wh = $( window ).height();
+  var traX, traY;
+  $(document).mousemove(function(e){
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+    traX = ((4 * mouseX) / 570) + 40;
+    traY = ((4 * mouseY) / 570) + 50;
+    console.log(traX);
+    $(".Title").css({"background-position": traX + "%" + traY + "%"});
+  });
+});
+
+function typeEffect(element, speed) {
+	var text = $(element).text();
+	$(element).html('');
+
+	var i = 0;
+	var timer = setInterval(function() {
+					if (i < text.length) {
+						$(element).append(text.charAt(i));
+						i++;
+					} else {
+						clearInterval(timer);
+					}
+				}, speed);
+}
+$( document ).ready(function() {
+  var speed = 75;
+  var delay = $('.Title').text().length * speed + speed;
+  typeEffect($('.Title'), speed);
+  setTimeout(function(){
+    $('#Sc').css('display', 'inline-block');
+    typeEffect($('#Sc'), speed);
+  }, delay);
+});
+{#$( document ).ready(function() {#}
+{#  var speed = 75;#}
+{#  var delay = $('.Title').text().length * speed + speed;#}
+{#  typeEffect($('.Title'), speed);});#}
+{#$( document ).ready(function() {#}
+{#  var speed = 90;#}
+{#  var delay = $("#Sc").text().length * speed + speed;#}
+{#  typeEffect($("#Sc"), speed);});#}
+</script>
     <div class="wrapper">
         {% block nav_header %}
             {% include 'adminlte/lib/_main_header.html' %}
@@ -125,16 +201,18 @@
                         {#                {% endblock %}#}
 
                         {% block content_block_wrap %}
-                            <h2 align="center"> Industrial Transport Management System</h2>
-{#                            <div class="sidebar-box" style="text-align: justify;text-justify: inter-word;overflow: hid; width: 100#}
-{#">#}
-{#                                <div style = "height:400px; overflow: auto;" >A Transportation Management System is a software that is aimed at helping business and organizations to effectively manage its logistics supply chain, it helps organizing and tracking the movements of the vehicles, products and materials. A Transportation Management System also helps in managing transport scheduling, shipping and transporting units, transportation mode selection, payment and processing of loss and damage claims etc. </div>#}
-                                {#                    <p class="read-more"><a href="#" class="button">Read More</a></p>#}
-{#                            </div>#}
-                            <div id="wrapper" style="overflow: hidden; font-size: 20px; text-align: justify">
-                                <div id="scroller" style="overflow: auto;">
-                                    A Transportation Management System is a software that is aimed at helping business and organizations to effectively manage its logistics supply chain, it helps organizing and tracking the movements of the vehicles, products and materials. A Transportation Management System also helps in managing transport scheduling, shipping and transporting units, transportation mode selection, payment and processing of loss and damage claims etc.
 
+                            {#                            <div class="sidebar-box" style="text-align: justify;text-justify: inter-word;overflow: hid; width: 100#}
+                            {#">#}
+                            {#                                <div style = "height:400px; overflow: auto;" >A Transportation Management System is a software that is aimed at helping business and organizations to effectively manage its logistics supply chain, it helps organizing and tracking the movements of the vehicles, products and materials. A Transportation Management System also helps in managing transport scheduling, shipping and transporting units, transportation mode selection, payment and processing of loss and damage claims etc. </div>#}
+                            {#                    <p class="read-more"><a href="#" class="button">Read More</a></p>#}
+                            {#                            </div>#}
+                            <div id="wrapper" style="overflow: hidden; font-size: 20px; text-align: justify">
+                                <div id="scroller" style="overflow: auto; font-family: 'Oxygen Mono', monospace;">
+                                     <h2 class= "Title" align="center"> Industrial Transport Management System</h2>
+                                    <p id="Sc" style="display: none">
+                                    A Transportation Management System is a software that is aimed at helping business and organizations to effectively manage its logistics supply chain, it helps organizing and tracking the movements of the vehicles, products and materials. A Transportation Management System also helps in managing transport scheduling, shipping and transporting units, transportation mode selection, payment and processing of loss and damage claims etc.
+                                </p>
                                 </div>
                             </div>
 

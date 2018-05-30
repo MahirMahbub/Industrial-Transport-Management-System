@@ -56,11 +56,76 @@
 {% endblock %}
 
 {% block content %}
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+        <script>
+
+        jQuery(document).ready(function($){
+
+            // Define a blank array for the effect positions. This will be populated based on width of the title.
+            var bArray = [];
+            // Define a size array, this will be used to vary bubble sizes
+            var sArray = [4,6,8,10];
+
+            // Push the header width values to bArray
+            for (var i = 0; i < $('.bubbles').width(); i++) {
+                bArray.push(i);
+            }
+
+            // Function to select random array element
+            // Used within the setInterval a few times
+            function randomValue(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            // setInterval function used to create new bubble every 350 milliseconds
+            setInterval(function(){
+
+                // Get a random size, defined as variable so it can be used for both width and height
+                var size = randomValue(sArray);
+                // New bubble appeneded to div with it's size and left position being set inline
+                // Left value is set through getting a random value from bArray
+                $('.bubbles').append('<div class="individual-bubble" style="left: ' + randomValue(bArray) + 'px; width: ' + size + 'px; height:' + size + 'px;"></div>');
+
+                // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+                // Callback function used to remove finsihed animations from the page
+                $('.individual-bubble').animate({
+                        'bottom': '100%',
+                        'opacity' : '-=0.7'
+                    }, 3000, function(){
+                        $(this).remove()
+                    }
+                );
+
+
+            }, 350);
+
+        });
+    </script>
+    <style>
+
+        .bubbles {
+            display: inline-block;
+            position: relative;
+            margin: 1em 0 0;
+            font-family: 'Luckiest Guy', cursive;
+            color: #000;
+            z-index: 2;
+        }
+
+        .individual-bubble {
+            position: absolute;
+            border-radius: 100%;
+            bottom: 10px;
+            background-color: #000;
+            z-index: 1;
+        }
+    </style>
+
     <div class="container"  >
         <div class = "well well-sm-8" >
             <div class = 'row'>
                 <div class = "col-sm-3 col-md-6 col-lg-4">
-                    <h2>{% trans "Vehicle Details" %}</h2>
+                    <h2 class = "bubbles">{% trans "Vehicle Details" %}</h2>
                     <p class="list-group-item"> <strong>License No: </strong>{{ vehicle.license_no }}</p>
                     <p class="list-group-item"> <strong>Chasis No: </strong>{{ vehicle.chassis_no }}</p>
                     <p class="list-group-item"> <strong>Owner: </strong>{{ vehicle.user.username }}</p>
@@ -88,7 +153,7 @@
                 </div>
 
                 <div class="col-sm-9 col-md-6 col-lg-8">
-                    <h2 >Way Point</h2>
+                    <h2 class = "bubbles" >Way Point</h2>
                     <div id="map" style="height:300px;overflow: hidden;position: relative;"></div>
                     <div id="right-panel">
                         <div>

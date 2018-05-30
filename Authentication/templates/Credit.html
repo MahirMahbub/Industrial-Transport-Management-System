@@ -2,17 +2,82 @@
 {% load i18n static %}
 {% block extra_head %}
 
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <link rel="stylesheet"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Tangerine">
 
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">#}
+    {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">#}
     <style>
-    #bo {
-        font-family: 'Tangerine', serif;
-        font-size: 30px;
-        text-shadow: 4px 4px 4px #aaa;
-    }
+
+@import url(https://fonts.googleapis.com/css?family=Finger+Paint);
+#bo{
+    z-index: 2;
+}
+.individual-bubble {
+position: absolute;
+border-radius: 100%;
+bottom: 10px;
+background-color: #000;
+z-index: 1;
+}
+.dos {
+  overflow: hidden;
+  font: 2vw/15vh "Finger Paint";
+  text-align: center;
+  color:black transparent;
+  backface-visibility: hidden;
+}
+
+.sp {
+  display: inline-block;
+  text-shadow: 0 0 0 whitesmoke;
+  animation: smoky 5s 3s both;
+
+}
+
+.sp:nth-child(even){
+  animation-name: smoky-mirror;
+}
+
+@keyframes smoky {
+  50% {
+    text-shadow: 0 0 15px whitesmoke;
+  }
+  to {
+    transform:
+      translate3d(8rem,-4rem,0)
+      rotate(-40deg)
+      skewX(70deg)
+      scale(1.5);
+    text-shadow: 0 0 10px whitesmoke;
+    opacity: 0;
+  }
+}
+
+@keyframes smoky-mirror {
+  60% {
+    text-shadow: 0 0 20px whitesmoke; }
+  to {
+    transform:
+      translate3d(8rem,-4rem,0)
+      rotate(-40deg)
+      skewX(-70deg)
+      scale(2);
+     text-shadow: 0 0 10px whitesmoke;
+    opacity: 0;
+  }
+}
+
+@for $item from 1 through 21 {
+  span:nth-of-type(#{$item}){
+    animation-delay: #{(3 + ($item/10))}s;
+  }
+}
+        #bo {
+            font-family: 'Tangerine', serif;
+            font-size: 30px;
+            text-shadow: 4px 4px 4px #aaa;
+        }
         #card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             max-width: 310px;
@@ -60,8 +125,11 @@
 {#{% block body_class %}{% endblock %}#}
 
 {% block content %}
-<blockquote class="blockquote text-center">
-<p class="mb-0" id = "bo">Thanks to the creator of this web site for their extensive and fruitful works.They gave massive amount of hard work on this website.This website is based on Django 2.0 web framework.</p>
+    <blockquote class="blockquote text-center">
+    <div class="dos">
+        <span class = "sp">I</span><span class = "sp">n</span><span class = "sp">d</span><span class = "sp">u</span><span class = "sp">s</span><span class = "sp">t</span><span class = "sp">r</span><span class = "sp">i</span><span class = "sp">a</span><span class = "sp">l</span><span class = "sp">&nbsp;</span><span class = "sp">T</span><span class = "sp">r</span><span class = "sp">a</span><span class = "sp">n</span><span class = "sp">s</span><span class = "sp">p</span><span class = "sp">o</span><span class = "sp">r</span><span class = "sp">t</span> <span class = "sp">&nbsp;</span> <span class = "sp">M</span><span class = "sp">a</span><span class = "sp">n</span><span class = "sp">a</span><span class = "sp">g</span><span class = "sp">e</span><span class = "sp">m</span><span class = "sp">e</span><span class = "sp">n</span><span class = "sp">t</span><span class = "sp">&nbsp;</span><span class = "sp">S</span><span class = "sp">y</span><span class = "sp">s</span><span class = "sp">t</span><span class = "sp">e</span><span class = "sp">m</span>
+        </div>
+        <p class="mb-0" id = "bo">Thanks to the creator of this web site for their extensive and fruitful works.They gave massive amount of hard work on this website.This website is based on Django 2.0 web framework.</p>
     </blockquote>
     <!--<h2 style="text-align:center">User Profile Card</h2>-->
     <div class="container">
@@ -73,7 +141,7 @@
                 <p>University of Dhaka</p>
                 <div style="margin: 24px 0;">  <a id = "al" href="https://twitter.com/MahirMahbub"><i class="fa fa-twitter"></i></a> <a id = "al" href="https://www.linkedin.com/in/mahirmahbub/"><i class="fa fa-linkedin"></i></a> <a id = "al" href="https://www.facebook.com/SandBoa"><i class="fa fa-facebook"></i></a> </div>
                 <p>
-{#                    <button>&nbsp;</button>#}
+                    {#                    <button>&nbsp;</button>#}
                 </p>
             </div>
             <div class="col-lg-auto"></div>
@@ -85,7 +153,7 @@
                 <p>University of Dhaka</p>
                 <div style="margin: 24px 0;">  <a id = "al" href="#"><i class="fa fa-twitter"></i></a> <a id = "al" href="#"><i class="fa fa-linkedin"></i></a> <a id = "al" href="https://www.facebook.com/mehedi.esefat"><i class="fa fa-facebook"></i></a> </div>
                 <p>
-{#                    <button>&nbsp;</button>#}
+                    {#                    <button>&nbsp;</button>#}
                 </p>
             </div>
         </div>

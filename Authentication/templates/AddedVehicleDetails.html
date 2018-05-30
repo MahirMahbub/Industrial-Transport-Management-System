@@ -8,41 +8,105 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+    <script>
 
-<div class = "well well-sm-8">
-    <h2>{% trans "Vehicle Details" %}</h2>
-        <p class="list-group-item"> <strong>License No: </strong>{{ vehicle.license_no }}</p>
-        <p class="list-group-item"> <strong>Chasis No: </strong>{{ vehicle.chassis_no }}</p>
-        <p class="list-group-item"> <strong>Owner: </strong>{{ vehicle.user.username }}</p>
-        <p class="list-group-item"> <strong>Owner Email: </strong>{{ vehicle.user.email }}</p>
-        <p class="list-group-item"> <strong>Owner Phone Number: </strong>{{ vehicle.user.address.phone_number }}</p>
-        <p class="list-group-item"> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
-        <p class="list-group-item"> <strong>Model: </strong>{{ vehicle.model }}</p>
-        <p class="list-group-item"> <strong>Driver Code Name: </strong>{{ vehicle.driver_code_name.username }}</p>
-        {% if vehicle.client%}
-            <p class="list-group-item"> <strong>Booked By: </strong>{{ vehicle.client.username }}</p>
-            <p class="list-group-item"> <strong>Booked By: </strong> <a href="mailto:'{{ vehicle.client.email }}'">{{ vehicle.client.email }}</a></p>
-        {% endif %}
+        jQuery(document).ready(function($){
 
-        <p class="list-group-item"> <strong>Owner Address: </strong>{{ vehicle.user.address.city }},{{ vehicle.user.address.sub_district }}, {{ vehicle.user.address.district }}</p>
-{#        <button class = "btn btn-primary" type="submit" value="{{ vehicle.id }}">Book it</button>#}
-        <form action="" method="post">
-            {% csrf_token %}
-{#    <p>Are you sure you want to delete "{{ object }}"?</p>#}
-{#        <input type="submit" value="Confirm" />#}
-            <p>
+            // Define a blank array for the effect positions. This will be populated based on width of the title.
+            var bArray = [];
+            // Define a size array, this will be used to vary bubble sizes
+            var sArray = [4,6,8,10];
 
-            </p>
+            // Push the header width values to bArray
+            for (var i = 0; i < $('.bubbles').width(); i++) {
+                bArray.push(i);
+            }
+
+            // Function to select random array element
+            // Used within the setInterval a few times
+            function randomValue(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            // setInterval function used to create new bubble every 350 milliseconds
+            setInterval(function(){
+
+                // Get a random size, defined as variable so it can be used for both width and height
+                var size = randomValue(sArray);
+                // New bubble appeneded to div with it's size and left position being set inline
+                // Left value is set through getting a random value from bArray
+                $('.bubbles').append('<div class="individual-bubble" style="left: ' + randomValue(bArray) + 'px; width: ' + size + 'px; height:' + size + 'px;"></div>');
+
+                // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+                // Callback function used to remove finsihed animations from the page
+                $('.individual-bubble').animate({
+                        'bottom': '100%',
+                        'opacity' : '-=0.7'
+                    }, 3000, function(){
+                        $(this).remove()
+                    }
+                );
+
+
+            }, 350);
+
+        });
+    </script>
+    <style>
+
+        .bubbles {
+            display: inline-block;
+            position: relative;
+            margin: 1em 0 0;
+            font-family: 'Luckiest Guy', cursive;
+            color: #000;
+            z-index: 2;
+        }
+
+        .individual-bubble {
+            position: absolute;
+            border-radius: 100%;
+            bottom: 10px;
+            background-color: #000;
+            z-index: 1;
+        }
+    </style>
+    <div class="container">
+
+        <div class = "well well-sm-8">
+            <h2 class = bubbles>{% trans "Vehicle Details" %}</h2>
+            <p class="list-group-item"> <strong>License No: </strong>{{ vehicle.license_no }}</p>
+            <p class="list-group-item"> <strong>Chasis No: </strong>{{ vehicle.chassis_no }}</p>
+            <p class="list-group-item"> <strong>Owner: </strong>{{ vehicle.user.username }}</p>
+            <p class="list-group-item"> <strong>Owner Email: </strong>{{ vehicle.user.email }}</p>
+            <p class="list-group-item"> <strong>Owner Phone Number: </strong>{{ vehicle.user.address.phone_number }}</p>
+            <p class="list-group-item"> <strong>Capacity: </strong>{{ vehicle.capacity }} ton</p>
+            <p class="list-group-item"> <strong>Model: </strong>{{ vehicle.model }}</p>
+            <p class="list-group-item"> <strong>Driver Code Name: </strong>{{ vehicle.driver_code_name.username }}</p>
             {% if vehicle.client%}
-            <button class = "btn btn-primary" type="submit" name = "track" value="Track" >Track</button>
-            {% else %}
-             <button class = "btn btn-primary" type="submit" name = "delete" value="Delete" >Delete</button>
-             <button class = "btn btn-primary" type="submit" name = "track" value="Track" >Track</button>
+                <p class="list-group-item"> <strong>Booked By: </strong>{{ vehicle.client.username }}</p>
+                <p class="list-group-item"> <strong>Booked By: </strong> <a href="mailto:'{{ vehicle.client.email }}'">{{ vehicle.client.email }}</a></p>
             {% endif %}
-{#            <input type="submit" name = "delete" value="Delete" />#}
-{#            <input type="submit" name = "track" value="Track" />#}
-</form>
-</div>
-</div>
+
+            <p class="list-group-item"> <strong>Owner Address: </strong>{{ vehicle.user.address.city }},{{ vehicle.user.address.sub_district }}, {{ vehicle.user.address.district }}</p>
+            {#        <button class = "btn btn-primary" type="submit" value="{{ vehicle.id }}">Book it</button>#}
+            <form action="" method="post">
+                {% csrf_token %}
+                {#    <p>Are you sure you want to delete "{{ object }}"?</p>#}
+                {#        <input type="submit" value="Confirm" />#}
+                <p>
+
+                </p>
+                {% if vehicle.client%}
+                    <button class = "btn btn-primary" type="submit" name = "track" value="Track" >Track</button>
+                {% else %}
+                    <button class = "btn btn-primary" type="submit" name = "delete" value="Delete" >Delete</button>
+                    <button class = "btn btn-primary" type="submit" name = "track" value="Track" >Track</button>
+                {% endif %}
+                {#            <input type="submit" name = "delete" value="Delete" />#}
+                {#            <input type="submit" name = "track" value="Track" />#}
+            </form>
+        </div>
+    </div>
 {% endblock %}

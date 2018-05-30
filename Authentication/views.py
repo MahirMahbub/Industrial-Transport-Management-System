@@ -212,7 +212,7 @@ def borrow_vehicle_details_view(request, pk):
         # except:
         from geopy.geocoders import Nominatim
         from geopy.distance import geodesic
-        geolocator = Nominatim(timeout=10)
+        geolocator = Nominatim(timeout=40)
         cur = str( vehicle.place )
         des = str( request.session['destination_place'] )
         pick = str( request.session['current_place'] )
